@@ -12,6 +12,7 @@ const profileModules = import.meta.glob("../content/members/*/profile.json", { e
 const assetModules = import.meta.glob("../content/members/*/*.{png,jpg,jpeg,webp,svg,pdf,html,htm}", {
   eager: true,
   import: "default",
+  query: "?url",
 });
 
 function formatDocTitle(str) {

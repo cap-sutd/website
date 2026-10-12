@@ -9,11 +9,11 @@ import PageNotFound from "./lib/PageNotFound";
 
 function App() {
   return (
-    <Router basename="/Capstone">
+    <Router basename="/website/">
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Capstone/" element={<Home />} />
+        <Route path="/website/" element={<Home />} />
         <Route path="/team" element={<TeamLayout />}>
           <Route index element={<Team />} />
           <Route path=":memberId" element={<MemberDossier />} />

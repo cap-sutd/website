@@ -70,7 +70,7 @@ export default function MemberDossier() {
           <Image
             src={member.image}
             alt={member.name}
-            className="h-full w-full object-cover grayscale"
+            className="h-full w-full object-cover"
             fittingType="fill"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />

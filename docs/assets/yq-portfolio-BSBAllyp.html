@@ -1,0 +1,172 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Tan Yi Qi - Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- EDIT ME: change any text below. Put yq-portrait.jpg in the same folder to show your photo. -->
+<style>
+:root{--bg:#09090e;--glass:rgba(255,255,255,.045);--bd:rgba(255,255,255,.11);--pur:#8a3ffc;--pur2:#c04bff;--org:#ff9d5c;--tx:#f3f3f8;--mu:#a3a3b5}
+*{box-sizing:border-box;margin:0;padding:0}
+html{overflow-y:auto;overflow-x:auto;background:#09090e;scroll-behavior:smooth}
+a{color:inherit;text-decoration:none}
+[id]{scroll-margin-top:100px}
+body{width:1240px;height:2110px;margin:0 auto;position:relative;overflow:visible;background:var(--bg);color:var(--tx);font-family:"Inter",Arial,sans-serif}
+.bgwrap{position:absolute;left:0;top:0;width:1240px;height:2110px;overflow:hidden;pointer-events:none}
+.bg1{position:absolute;left:-200px;top:-260px;width:900px;height:900px;background:radial-gradient(circle at 40% 40%,rgba(138,63,252,.55),rgba(138,63,252,0) 62%)}
+.bg2{position:absolute;right:-260px;top:1050px;width:900px;height:900px;background:radial-gradient(circle at 60% 50%,rgba(192,75,255,.30),rgba(192,75,255,0) 62%)}
+.bg3{position:absolute;left:-300px;top:1500px;width:800px;height:800px;background:radial-gradient(circle at 50% 50%,rgba(138,63,252,.28),rgba(138,63,252,0) 62%)}
+.diag{position:absolute;left:0;top:0;width:1240px;height:700px;background:linear-gradient(115deg,rgba(138,63,252,.22) 0%,rgba(138,63,252,0) 45%);clip-path:polygon(0 0,100% 0,60% 100%,0 100%);-webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 55%,transparent 100%)}
+.glass{background:var(--glass);border:1px solid var(--bd);border-radius:20px;backdrop-filter:blur(6px)}
+.abs{position:absolute}
+
+/* nav */
+.nav{position:fixed;left:50%;transform:translateX(-50%);width:1120px;top:40px;height:54px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;z-index:50}
+.nav:before{content:"";position:absolute;left:50%;transform:translateX(-50%);width:100vw;top:-40px;bottom:-16px;z-index:-1;pointer-events:none;opacity:0;transition:opacity .2s;background:linear-gradient(#09090e 62%,rgba(9,9,14,0))}
+.nav.stuck:before{opacity:1}
+.nav .cta{justify-self:end}
+.logo{width:34px;height:34px}
+.pill{display:flex;gap:34px;padding:14px 34px;border:1px solid var(--bd);background:rgba(20,18,34,.92);backdrop-filter:blur(10px);border-radius:999px;font-size:14px;font-weight:500;color:#dcdce8}
+.pill a{transition:color .15s}.pill a:hover{color:#fff;text-shadow:0 0 12px rgba(192,75,255,.9)}
+.soc{transition:background .15s}a.soc:hover{background:rgba(138,63,252,.5)}
+.cta{display:block;transition:filter .15s}.cta:hover{filter:brightness(1.15)}
+.cta{background:linear-gradient(90deg,var(--pur),var(--pur2));padding:14px 28px;border-radius:999px;font-size:14px;font-weight:600}
+
+/* hero */
+.hello{left:60px;top:134px;font-size:104px;font-weight:500;letter-spacing:-3px;line-height:1}
+.intro{left:60px;top:268px;width:300px;font-size:17px;line-height:1.5;color:#c9c9d8}
+.role{left:60px;width:350px;display:flex;align-items:center;gap:14px;font-size:20px;font-weight:500;color:#e8e8f2}
+.role:after{content:"";flex:1;height:1.5px;background:rgba(255,255,255,.7)}
+.role i{position:absolute;right:-3px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:#fff}
+.photo{left:430px;top:168px;width:380px;height:480px;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.2);box-shadow:0 30px 90px rgba(138,63,252,.55);background:linear-gradient(160deg,#3b1d7a,#14102c)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.iam{right:60px;top:392px;text-align:right}
+.iam .s{font-size:54px;font-weight:500;letter-spacing:-1px;line-height:1}
+.iam .b{font-size:96px;font-weight:700;letter-spacing:-4px;line-height:.98}
+.soc{width:46px;height:46px;border:1.6px solid #fff;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(14,12,26,.9);z-index:5}
+
+/* about */
+.about{left:60px;top:690px;width:1120px;height:204px;display:flex;padding:30px 36px;gap:50px}
+.about .l{flex:1}
+.about h2{font-size:28px;font-weight:600;margin-bottom:8px}
+.about p{font-size:14.5px;line-height:1.55;color:var(--mu)}
+.about .r{width:440px;display:flex;flex-direction:column;gap:18px;justify-content:center}
+.feat{display:flex;align-items:center;gap:14px}
+.ic{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--pur),var(--pur2));display:flex;align-items:center;justify-content:center;flex:none}
+.feat b{display:block;font-size:15.5px;font-weight:600}
+.feat span{display:block;font-size:12.5px;color:var(--mu);line-height:1.4;margin-top:2px}
+.feat .go{margin-left:auto;width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+
+/* section titles */
+.st{position:absolute;left:0;right:0;text-align:center;font-size:32px;font-weight:500;letter-spacing:-.5px}
+
+/* projects */
+.rows{left:60px;top:966px;width:1120px}
+.row{display:grid;grid-template-columns:56px 330px 1fr 210px;gap:24px;align-items:center;padding:19px 0;border-top:1px solid var(--bd);height:100px}
+.row:last-child{border-bottom:1px solid var(--bd)}
+.row .ic{width:56px;height:56px;border-radius:14px}
+.stat{font-size:38px;font-weight:700;letter-spacing:-1.5px;background:linear-gradient(90deg,#b98bff,#ff9d5c);-webkit-background-clip:text;color:transparent}
+.row h3{font-size:19px;font-weight:600;line-height:1.2}
+.row .sb{font-size:13px;color:var(--mu);margin-top:3px}
+.row p{font-size:14px;line-height:1.5;color:#c4c4d3}
+.tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.tags span{border:1px solid var(--bd);background:rgba(255,255,255,.06);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:500;white-space:nowrap}
+
+/* skills */
+.skills{left:60px;top:1500px;width:1120px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.sk{padding:22px 22px 20px;height:176px}
+.sk.hi{border-color:rgba(192,150,255,.55);background:rgba(138,63,252,.10)}
+.sk .ic{width:38px;height:38px;border-radius:10px;margin-bottom:12px}
+.sk h4{font-size:16.5px;font-weight:600;margin-bottom:6px}
+.sk ul{margin-left:16px;font-size:13px;line-height:1.55;color:#c4c4d3}
+
+/* exp edu */
+.two{left:60px;top:1796px;width:1120px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{padding:24px 28px;height:252px}
+.panel h4{font-size:15px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#cfa8ff;margin-bottom:10px}
+.e{margin-bottom:10px;display:flex;justify-content:space-between;gap:16px}
+.e b{font-size:15px;font-weight:600;line-height:1.25;display:block}
+.e small{display:block;font-size:12.5px;color:var(--mu);margin-top:1px;line-height:1.35}
+.e em{font-style:normal;font-size:12px;color:var(--mu);white-space:nowrap;padding-top:2px}
+.foot{position:absolute;left:60px;right:60px;bottom:26px;display:flex;justify-content:space-between;font-size:13px;color:var(--mu)}
+</style></head><body>
+<div class="bgwrap"><div class="bg1"></div><div class="diag"></div><div class="bg2"></div><div class="bg3"></div></div>
+
+<div class="nav">
+  <svg class="logo" viewBox="0 0 34 34"><path d="M5 9 L17 18 L29 9 L17 3Z" fill="#a66bff"/><path d="M5 15 L17 24 L29 15" fill="none" stroke="#c04bff" stroke-width="3" stroke-linejoin="round"/></svg>
+  <div class="pill"><a href="#about">About Me</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#experience">Experience</a></div>
+  </div>
+
+<!-- hero -->
+<svg class="abs" style="left:0;top:0" width="1240" height="700" viewBox="0 0 1240 700" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.5">
+  <path d="M340 213 H407"/><path d="M430 236 V256"/>
+</svg>
+<div class="abs hello">Hello,</div>
+<div class="abs intro">Engineering Systems &amp; Design student at SUTD. I turn messy operations problems into models a team can act on.</div>
+<div class="abs role" style="top:446px">Operations Research<i></i></div>
+<div class="abs role" style="top:498px">Data &amp; Analytics<i></i></div>
+<div class="abs role" style="top:550px">Systems Design<i></i></div>
+
+<div class="abs photo" id="photo">
+  <svg viewBox="0 0 380 480" width="380" height="480" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a2394"/><stop offset="1" stop-color="#17112f"/></linearGradient></defs><rect width="380" height="480" fill="url(#g)"/><circle cx="190" cy="190" r="70" fill="#7d5bd0" opacity=".55"/><path d="M45 480 C55 360 120 300 190 300 C260 300 325 360 335 480Z" fill="#7d5bd0" opacity=".55"/></svg>
+  <img src="portrait.jpg" alt="" style="position:absolute;inset:0" onerror="this.remove()">
+</div>
+
+<a class="abs soc" href="https://www.linkedin.com/in/yi-qi-tan" target="_blank" rel="noopener" style="left:407px;top:190px"></a>
+<div class="abs soc" style="left:407px;top:256px"></div>
+<div class="abs iam"><div class="s">I am</div><div class="b">Tan<br>Yi Qi</div></div>
+
+<!-- about -->
+<div class="abs glass about" id="about">
+  <div class="l"><h2>About Me</h2><p>Hello! I'm Tan Yi Qi, an Engineering Systems &amp; Design student at SUTD specializing in Business Analytics & Research Operations, with a minor in Psychology and Business Management and a diploma in Applied Chemistry! I like turning complex operations problems into practical products for teams to use.</p></div>
+  <div class="r">
+    <div class="feat"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 18 L9 11 L13 15 L20 6"/><path d="M15 6h5v5"/></svg></div><div><b>Optimisation &amp; modelling</b><span>LP, MILP and metaheuristics in Python and Gurobi.</span></div><div class="go"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#111" stroke-width="1.8"><path d="M3 11 11 3M4.5 3H11v6.5"/></svg></div></div>
+    <div class="feat"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M12 14V8M17 14v-5M8 21h8"/></svg></div><div><b>Data &amp; dashboards</b><span>Power BI, web forms and SQL that make operations visible.</span></div><div class="go"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#111" stroke-width="1.8"><path d="M3 11 11 3M4.5 3H11v6.5"/></svg></div></div>
+  </div>
+</div>
+
+<!-- projects -->
+<div class="st" id="projects" style="top:912px">Selected Projects</div>
+<div class="abs rows">
+  <div class="row"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5.8"/></svg></div><div><h3>Recycling Collection Routing</h3><div class="sb">Heuristics &amp; Systems Theory · SUTD</div></div><p>Routed 574 real HDB recycling bins with 100% coverage. Usage of 3 heuristic algorithms to compare and benchmark optimal path.</p><div class="tags"><span>MILP</span><span>Gurobi</span><span>Simulated Annealing</span></div></div>
+  <div class="row"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div><div><h3>Cost-Optimal Power Dispatch</h3><div class="sb">Optimisation Project · SUTD</div></div><p>LP over 17,520 half-hourly periods; a custom gradient-descent carbon penalty landed 33.72 Mt against a 33.73 Mt budget.</p><div class="tags"><span>Linear Programming</span><span>Python</span><span>Gradient Descent</span></div></div>
+  <div class="row"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M12 14V8M17 14v-5M8 21h8"/></svg></div><div><h3>EcoPlus Web App &amp; Power BI Dashboard</h3><div class="sb">Data &amp; Business Analytics · SUTD</div></div><p>Real-time order-entry forms and data visualisation tracker replaced scattered manual records for a piping firm.</p><div class="tags"><span>Power BI</span><span>Web Forms</span><span>Dashboard UX</span></div></div>
+  <div class="row"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="12" height="9" rx="1"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><div><h3>Aggregate Planning · SATS / Country Foods</h3><div class="sb">Manufacturing &amp; Service Operations · SUTD</div></div><p>Mapped a 4–7 month overseas supply chain; a Python LP to improve initial excel baseline.</p><div class="tags"><span>Python LP</span><span>Excel</span><span>S&amp;OP</span></div></div>
+</div>
+
+<!-- skills -->
+<div class="st" id="skills" style="top:1442px">Skills &amp; Tools</div>
+<div class="abs skills">
+  <div class="glass sk hi"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M8 7 3 12l5 5M16 7l5 5-5 5M14 5l-4 14"/></svg></div><h4>Languages</h4><ul><li>Python, R</li><li>SQL, Julia</li></ul></div>
+  <div class="glass sk"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div><h4>Optimisation</h4><ul><li>LP / MILP, Gurobi</li><li>Simulated Annealing, GA</li></ul></div>
+  <div class="glass sk"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M12 14V8M17 14v-5"/></svg></div><h4>Analytics</h4><ul><li>Power BI, Excel modelling</li><li>Google Sheets &amp; Apps Script</li></ul></div>
+  <div class="glass sk"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg></div><h4>Design &amp; Fab</h4><ul><li>Blender, Rhino</li><li>Photoshop, lab &amp; fabrication</li></ul></div>
+</div>
+
+<!-- experience & education -->
+<div class="st" id="experience" style="top:1738px">Experience &amp; Education</div>
+<div class="abs two">
+  <div class="glass panel">
+    <h4>Experience &amp; Leadership</h4>
+    <div class="e"><div><b>Temporary Senior Associate</b><small>NCCS Business Office · government-scheme billing, wrote billing guidelines</small></div><em>2024</em></div>
+    <div class="e"><div><b>Laboratory Intern</b><small>Bureau Veritas · reagent prep, calibration, lab relocation</small></div><em>2023</em></div>
+    <div class="e"><div><b>Secretary, Development &amp; Dice Club</b><small>SUTD · club admin, led Game Jam 2025</small></div><em>2025–26</em></div>
+    <div class="e"><div><b>Sustainability &amp; Safety Advisor</b><small>Class Exco, SUTD</small></div><em>2024–25</em></div>
+  </div>
+  <div class="glass panel">
+    <h4>Education</h4>
+    <div class="e"><div><b>B.Eng, Engineering Systems &amp; Design</b><small>SUTD · Minor in Psychology; Business Management</small></div><em>2024–28</em></div>
+    <div class="e"><div><b>Exchange: Innovation &amp; Entrepreneurship</b><small>VinUniversity, Hanoi · group leader; 2nd Runner-Up, Business Investor Competition</small></div><em>Sep 2025</em></div>
+    <div class="e"><div><b>Diploma in Applied Chemistry (Pharmaceutical Science)</b><small>Singapore Polytechnic</small></div><em>2021–24</em></div>
+  </div>
+</div>
+
+<div class="foot"><span>Tan Yi Qi · Capstone Portfolio</span><span><a href="mailto:tyqtanyiqi@gmail.com">tyqtanyiqi@gmail.com</a> · <a href="https://www.linkedin.com/in/yi-qi-tan" target="_blank" rel="noopener">linkedin.com/in/yi-qi-tan</a></span></div>
+
+<script>
+const navEl=document.querySelector('.nav');const onS=()=>navEl.classList.toggle('stuck',window.scrollY>30);window.addEventListener('scroll',onS);onS();
+// social icons
+const li='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M7 10v8M7 6.5v.2M11.5 18v-8M11.5 13c0-2 1.3-3 2.8-3s2.7 1 2.7 3v5"/></svg>';
+const ml='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>';
+const s=document.querySelectorAll('.soc');s[0].innerHTML=li;s[1].innerHTML=ml;
+</script>
+</body></html>

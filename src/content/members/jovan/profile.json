@@ -5,7 +5,7 @@
   "pillar": "Supply Chain // Financial Services",
   "pitchReady": true,
   "portrait": "portrait.jpg",
-  "portfolio": "portfolio.png",
+  "portfolio": "portfolio.pdf",
   "stack": [
     "Next.js",
     "Supabase",
