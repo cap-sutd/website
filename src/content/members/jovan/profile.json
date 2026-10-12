@@ -1,0 +1,39 @@
+{
+  "id": "jovan-tan",
+  "index": "02",
+  "name": "Tan Chuan Rae Jovan",
+  "pillar": "Supply Chain // Financial Services",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolio": "portfolio.png",
+  "stack": [
+    "Next.js",
+    "Supabase",
+    "Python / FastAPI",
+    "Claude API & RAG",
+    "Optimisation & Forecasting"
+  ],
+  "summary": "I build systems that get used. I'm an Engineering Systems & Design student at SUTD and the founder of Radiant Digital, where I take products from a client conversation to a shipped app. My training is in optimisation, forecasting and operations; my habit is turning those models into software a business can run on. I care less about the elegant model than about the decision it changes.",
+  "artifacts": [
+    {
+      "title": "RAILWATCH — Rail Wear Forecasting",
+      "year": "2026",
+      "category": "Supply Chain / Operations",
+      "description": "Forecasting system for SBS Transit that predicts rail wear with weighted regression, built on FastAPI and SQLite to support maintenance planning."
+    },
+    {
+      "title": "LUMU — Wellness Companion App",
+      "year": "2026",
+      "category": "Client Product",
+      "description": "Client-funded mental wellness app with an AI companion backed by a RAG psychoeducation library; scoped, contracted and built end to end for a public launch on both app stores."
+    },
+    {
+      "title": "CADENCE — Client Acquisition System",
+      "year": "2026",
+      "category": "Venture",
+      "description": "Funnel system for service businesses covering landing pages, payments and AI follow-up, built on Next.js, Supabase and Stripe; first paying client signed."
+    }
+  ],
+  "whyMe": "A capstone stalls when the analysis never leaves the spreadsheet. I close that gap: I can frame the problem as an operations or finance question, model it, and then build the working tool a partner can put in front of their team. I have scoped and delivered for paying clients, so I know how to keep a brief honest, a timeline real, and a stakeholder in the loop.",
+  "contact": "tanchuanrae@gmail.com"
+}

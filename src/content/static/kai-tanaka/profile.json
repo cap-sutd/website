@@ -1,0 +1,50 @@
+{
+  "id": "kai-tanaka",
+  "index": "01",
+  "name": "Kai Tanaka",
+  "pillar": "Lead Engineer // Systems Architecture",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolios": [
+    {
+      "title": "Systems Architecture Dossier",
+      "file": "portfolio.pdf",
+      "category": "Architecture Spec"
+    },
+    {
+      "title": "Technical CV & Executive Overview",
+      "file": "portfolio.png",
+      "category": "Curriculum Vitae"
+    }
+  ],
+  "stack": [
+    "Python",
+    "Go",
+    "Distributed Systems",
+    "Cloud Infra",
+    "PostgreSQL"
+  ],
+  "summary": "I build the spine. Six years of shipping production backends before returning to academia — I architect systems that survive contact with real users, not just demo audiences. My job on this capstone is to make sure the foundation is boring, because boring means reliable.",
+  "artifacts": [
+    {
+      "title": "ATLAS — Realtime Telemetry Mesh",
+      "year": "2025",
+      "category": "Systems Engineering",
+      "description": "A low-latency event streaming platform handling 40k events/sec across 12 nodes."
+    },
+    {
+      "title": "FORGE — Internal Devkit",
+      "year": "2024",
+      "category": "Open Source",
+      "description": "A CLI + service scaffold that cut new-microservice bootstrapping from 3 days to 40 minutes."
+    },
+    {
+      "title": "LEDGER — Audit Pipeline",
+      "year": "2024",
+      "category": "Cybersecurity",
+      "description": "Append-only compliance log with cryptographic integrity proofs for fintech client."
+    }
+  ],
+  "whyMe": "Most capstone teams discover infrastructure is hard mid-project. I remove that discovery. I bring production scar tissue — on-call rotations, incident post-mortems, capacity planning — so the team can spend its cycles on the actual problem, not on keeping the lights on.",
+  "contact": "kai@syndicate.capstone"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "nadia-rahman",
+  "index": "06",
+  "name": "Nadia Rahman",
+  "pillar": "Security Engineer // DevSecOps & Infrastructure",
+  "pitchReady": true,
+  "portrait": "portrait.png",
+  "portfolio": "portfolio.png",
+  "stack": [
+    "DevSecOps",
+    "Cloud Security",
+    "Terraform",
+    "CI/CD",
+    "Threat Modeling",
+    "OWASP"
+  ],
+  "summary": "I harden what the team ships. I have broken into systems for a living before building them — so I think in threat models, not feature lists. On this capstone I own the security posture end to end: secrets, pipelines, access control, and the audit trail a regulated partner can actually sign off on.",
+  "artifacts": [
+    {
+      "title": "BASTION — Zero-Trust Access Layer",
+      "year": "2025",
+      "category": "Cybersecurity",
+      "description": "Identity-aware proxy cutting lateral movement risk by 81% across a multi-service estate."
+    },
+    {
+      "title": "SENTINEL-POLICY — IaC Guardrails",
+      "year": "2025",
+      "category": "Cybersecurity",
+      "description": "Terraform policy pack blocking 140+ misconfigurations before deploy."
+    },
+    {
+      "title": "AUDIT-TRAIL — Compliance Pipeline",
+      "year": "2024",
+      "category": "Cybersecurity",
+      "description": "Tamper-evident logging pipeline mapped to SOC2 controls for a fintech pilot."
+    }
+  ],
+  "whyMe": "Most student projects treat security as a week-eleven checklist. I treat it as a design constraint from day one — so the partner inherits a system they can put in front of their own security review without flinching. I bring the attacker's perspective so the team never ships a soft target.",
+  "contact": "nadia@syndicate.capstone"
+}

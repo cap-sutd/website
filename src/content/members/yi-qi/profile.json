@@ -1,0 +1,41 @@
+{
+  "id": "tan-yi-qi",
+  "index": "05",
+  "name": "Tan Yi Qi",
+  "pillar": "Engineering Systems & Design // Data & Operations",
+  "pitchReady": true,
+  "portrait": "yq-portrait.jpg",
+  "portfolio": "yq-portfolio.html",
+  "download": "yq-portfolio-download.jpeg",
+  "stack": [
+    "Python",
+    "Optimisation (LP / MILP)",
+    "Gurobi",
+    "Power BI",
+    "SQL / R / Julia",
+    "Excel Modelling"
+  ],
+  "summary": "I turn messy, real-world operations problems into models a team can act on. I study Engineering Systems and Design at SUTD with minors in Psychology and Business Management, and my background in applied chemistry keeps me careful about precision and process. I formulate the problem, build the model/dashboard, and test it against real data.",
+  "artifacts": [
+    {
+      "title": "ROUTING — Recycling Collection Problem",
+      "year": "2026",
+      "category": "Optimisation",
+      "description": "Modelled 574 real HDB recycling bins as a multi-depot VRP; Simulated Annealing beat Gurobi's exact solution by 2.3x in 14.7s vs 6 hrs."
+    },
+    {
+      "title": "DISPATCH — Carbon-Constrained Power Model",
+      "year": "2026",
+      "category": "Energy Systems",
+      "description": "LP across 17,520 half-hourly periods with a custom online gradient descent carbon penalty; emissions landed 0.03% under budget."
+    },
+    {
+      "title": "ECOPLUS — Web App & Power BI Dashboard",
+      "year": "2026",
+      "category": "Data & Analytics",
+      "description": "Real-time order-entry forms and a colour-coded job tracker replaced scattered manual records for a piping/engineering firm."
+    }
+  ],
+  "whyMe": "A capstone succeeds when the problem is framed correctly and the solution holds up on real data. I bring the optimisation and analytics skills to model complex systems, the dashboard and UX sense to make results usable, and the discipline to get the details right.",
+  "contact": "tyqtanyiqi@gmail.com"
+}

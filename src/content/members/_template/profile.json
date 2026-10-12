@@ -1,0 +1,25 @@
+{
+  "id": "new-member",
+  "index": "08",
+  "name": "First Last",
+  "pillar": "Specialist Role // Area of Focus",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolio": "portfolio.pdf",
+  "stack": [
+    "Skill 1",
+    "Skill 2",
+    "Skill 3"
+  ],
+  "summary": "Your professional biography and engineering/strategic focus.",
+  "artifacts": [
+    {
+      "title": "PROJECT NAME — Subtitle",
+      "year": "2026",
+      "category": "Systems Engineering",
+      "description": "Concise description of the artifact or project."
+    }
+  ],
+  "whyMe": "Why you are specifically valuable to this capstone engagement.",
+  "contact": "username@syndicate.capstone"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "rohan-mehta",
+  "index": "03",
+  "name": "Rohan Mehta",
+  "pillar": "Data Scientist // ML & Analytics",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolio": "portfolio.png",
+  "stack": [
+    "Python",
+    "PyTorch",
+    "NLP",
+    "Statistics",
+    "dbt",
+    "BigQuery"
+  ],
+  "summary": "I turn noise into decisions. I have shipped models into production — not just notebooks — and I know the gap between a 0.92 F1 and a model a business can trust. On this capstone I own the data pipeline end to end: ingestion, feature work, modeling, and the dashboard a partner actually reads.",
+  "artifacts": [
+    {
+      "title": "SENTINEL — Anomaly Detection",
+      "year": "2025",
+      "category": "AI / Machine Learning",
+      "description": "Unsupervised model flagging fraud patterns; 23% lift over legacy rules engine."
+    },
+    {
+      "title": "LEXICON — Domain LLM Fine-tune",
+      "year": "2025",
+      "category": "AI / Machine Learning",
+      "description": "Adapted open-weight model on legal corpus; retrieval precision up 34%."
+    },
+    {
+      "title": "PULSE — Exec Analytics Dashboard",
+      "year": "2024",
+      "category": "Analytics",
+      "description": "Real-time KPI surface for a logistics startup, used daily by the C-suite."
+    }
+  ],
+  "whyMe": "Data work dies in the handoff. I sit with engineering on the pipeline and with strategy on the interpretation, so the model is not a black box the team hopes works — it is a documented, monitored, explainable component the partner can defend in a board meeting.",
+  "contact": "rohan@syndicate.capstone"
+}

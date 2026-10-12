@@ -1,0 +1,40 @@
+{
+  "id": "theo-vance",
+  "index": "07",
+  "name": "Theo Vance",
+  "pillar": "Reliability Engineer // Testing & Observability",
+  "pitchReady": false,
+  "portrait": "portrait.png",
+  "portfolio": "portfolio.png",
+  "stack": [
+    "Go",
+    "Grafana",
+    "Prometheus",
+    "Chaos Testing",
+    "E2E Automation",
+    "SLOs"
+  ],
+  "summary": "I prove it works before someone else has to. I have been the person paged at 3am, so I build systems that tell you they are sick before they die. On this capstone I own reliability: test coverage, observability, SLOs, and the dashboards that turn 'it feels slow' into a number we can fix.",
+  "artifacts": [
+    {
+      "title": "PROBE — Synthetic Monitoring Net",
+      "year": "2025",
+      "category": "Systems Engineering",
+      "description": "Global probe fleet catching regressions 4x faster than user reports."
+    },
+    {
+      "title": "STORM — Chaos Test Suite",
+      "year": "2025",
+      "category": "Systems Engineering",
+      "description": "Controlled failure injection surfacing 9 latent race conditions pre-launch."
+    },
+    {
+      "title": "SLO-BOARD — Reliability Dashboard",
+      "year": "2024",
+      "category": "Analytics",
+      "description": "Error-budget tracking adopted by 2 student teams; incident MTTR down 60%."
+    }
+  ],
+  "whyMe": "A partner trusts what they can measure. I give them the numbers — uptime, latency, error budget — and the evidence behind them. Where most teams hand over a demo and hope, I hand over a system that monitors itself and a test suite that proves the next change will not break the last one.",
+  "contact": "theo@syndicate.capstone"
+}

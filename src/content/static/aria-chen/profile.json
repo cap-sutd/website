@@ -1,0 +1,52 @@
+{
+  "id": "aria-chen",
+  "index": "02",
+  "name": "Aria Chen",
+  "pillar": "Lead Strategist // UX & Research",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolio": "portfolio.png",
+  /* OR --> del this and ensure only 1 "portfolio" key exist in the JSON file*/
+  "portfolios": [
+    {
+      "title": "Systems Architecture Dossier",
+      "file": "portfolio.pdf",
+      "category": "Architecture Spec"
+    },
+    {
+      "title": "Technical CV & Executive Overview",
+      "file": "portfolio.png",
+      "category": "Curriculum Vitae"
+    }
+  ],
+  "stack": [
+    "Figma",
+    "User Research",
+    "Service Design",
+    "Prototyping",
+    "Design Systems"
+  ],
+  "summary": "I translate ambiguity into something a team can build. My background is in behavioral research and product strategy — I run the studies, synthesize the signal, and make sure the thing we engineer is the thing a partner actually needs. I do not ship features nobody asked for.",
+  "artifacts": [
+    {
+      "title": "FIELDNOTES — Ethnographic Study",
+      "year": "2025",
+      "category": "Research",
+      "description": "32 interviews across 3 hospital wards, surfaced 11 unmet clinician needs."
+    },
+    {
+      "title": "BLUEPRINT — Design System v2",
+      "year": "2025",
+      "category": "Product / UX",
+      "description": "Token-based system adopted across 4 student projects; reduced UI drift by 70%."
+    },
+    {
+      "title": "JOURNEY — Onboarding Redesign",
+      "year": "2024",
+      "category": "Internship",
+      "description": "Re-architected first-run flow; activation rate lifted from 31% to 58%."
+    }
+  ],
+  "whyMe": "A capstone fails when it solves the wrong problem. I run the discovery that prevents that — stakeholder interviews, competitive teardowns, usability tests. By the time engineering starts, the brief is sharp enough to build against, and the partner has already seen themselves in the work.",
+  "contact": "aria@syndicate.capstone"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "mira-okafor",
+  "index": "04",
+  "name": "Mira Okafor",
+  "pillar": "Project Lead // Delivery & Operations",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolio": "portfolio.png",
+  "stack": [
+    "Agile Delivery",
+    "Risk Management",
+    "Stakeholder Comms",
+    "Roadmapping",
+    "Notion"
+  ],
+  "summary": "I make sure the right thing ships on the right day. I have run delivery for a 14-person startup team and I treat a capstone like a real engagement — scope, milestones, risk register, weekly partner syncs. No surprise gaps in week ten. No ghosted deliverables.",
+  "artifacts": [
+    {
+      "title": "CADENCE — Delivery Framework",
+      "year": "2025",
+      "category": "Product / UX",
+      "description": "Lightweight sprint system adopted across 3 student teams; on-time delivery up to 92%."
+    },
+    {
+      "title": "RISKMAP — Stakeholder Register",
+      "year": "2025",
+      "category": "Analytics",
+      "description": "Live risk-and-dependency matrix used in weekly partner reviews."
+    },
+    {
+      "title": "LAUNCH — Go-to-Market Plan",
+      "year": "2024",
+      "category": "Product / UX",
+      "description": "Coordinated 6-team release for a campus platform; 4k users in week one."
+    }
+  ],
+  "whyMe": "Industry partners do not fear students' technical ability — they fear unpredictability. I am the person who sends the status update before it is asked for, who escalates early, and who protects the scope so the team can do deep work without the partner losing trust.",
+  "contact": "mira@syndicate.capstone"
+}

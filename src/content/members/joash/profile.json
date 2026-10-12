@@ -1,0 +1,53 @@
+{
+  "id": "joash-lim",
+  "index": "01",
+  "name": "Joash Lim",
+  "pillar": "Operations Lead // Supply Chain & AI Systems",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolios": [
+    {
+      "title": "Resume & Executive Overview",
+      "file": "portfolio.pdf",
+      "category": "Curriculum Vitae"
+    }
+  ],
+  "stack": [
+    "Python",
+    "SQL",
+    "SAP / OMS / WMS",
+    "Operations Research",
+    "Supply Chain Analytics",
+    "RAG & LLM Pipelines",
+    "Project Management"
+  ],
+  "summary": "I sit where engineering meets operations. Trained in mechatronics and now in systems design with a focus on analytics, operations research and supply chain, I've built warehouse forecasting at Love, Bonito, deployed robots at a live event, scaled an expert workforce in London, and run client onboarding for the AI startup I co-founded. I make complex systems run, on time and in the real world.",
+  "artifacts": [
+    {
+      "title": "INFINEON — Multi-Modal RAG Pipeline",
+      "year": "2026",
+      "category": "Data & Analytics",
+      "description": "Dual-path hybrid search with custom score fusion; 96% accuracy under LLM-as-a-judge evaluation. CBS Data & Business Analytics Project Award 2026."
+    },
+    {
+      "title": "LOVE, BONITO — Warehouse Forecasting & 3PL Tracking",
+      "year": "2026",
+      "category": "Internship",
+      "description": "Built warehouse forecasting and 3PL KPI tracking; ran UAT for the SAP, OMS and WMS integration across the SG and MY distribution centres."
+    },
+    {
+      "title": "THE ROBOT COMPANY — Full-Swerve Robot Deployment",
+      "year": "2026",
+      "category": "Robotics",
+      "description": "Engineered and deployed a full-swerve robotic system for AI Engineer Singapore 2026, balancing battery life, weight and payload."
+    },
+    {
+      "title": "APTURA — Expert Operations Scale-Up",
+      "year": "2025",
+      "category": "Operations",
+      "description": "Scaled a finance-expert data-labelling team from 6 to 50+ and improved onboarding efficiency 3–4x."
+    }
+  ],
+  "whyMe": "A capstone fails when the plan looks good on paper but breaks at delivery. I make sure it doesn't. I've run UAT, written SOPs, scaled teams and shipped hardware to a live event — I keep the timeline, the stakeholders and the system moving together, so the partner gets something that actually works inside their operations.",
+  "contact": "joashxlim@gmail.com"
+}

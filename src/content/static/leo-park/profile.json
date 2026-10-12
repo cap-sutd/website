@@ -1,0 +1,40 @@
+{
+  "id": "leo-park",
+  "index": "05",
+  "name": "Leo Park",
+  "pillar": "Full-Stack Engineer // Product & Interface",
+  "pitchReady": false,
+  "portrait": "portrait.jpg",
+  "portfolio": "portfolio.png",
+  "stack": [
+    "TypeScript",
+    "React",
+    "Node",
+    "API Design",
+    "Postgres",
+    "Tailwind"
+  ],
+  "summary": "I build the surface. I care about the seam between backend and user — the API contract, the loading state, the empty state, the error that does not make someone quit. I have shipped side projects to real users and I treat the interface as a product, not a demo skin.",
+  "artifacts": [
+    {
+      "title": "CONDUIT — Edge API Gateway",
+      "year": "2025",
+      "category": "Systems Engineering",
+      "description": "Type-safe gateway routing 6 internal services; p95 latency under 80ms."
+    },
+    {
+      "title": "SIGNAL — Realtime Collab Editor",
+      "year": "2025",
+      "category": "Open Source",
+      "description": "CRDT-based document editor with presence and conflict-free sync."
+    },
+    {
+      "title": "ATLAS UI — Component Library",
+      "year": "2024",
+      "category": "Open Source",
+      "description": "Accessible React component set, 60+ components, full keyboard nav."
+    }
+  ],
+  "whyMe": "The interface is where a partner judges whether the work is real. I close the loop between data, backend, and human — so the partner does not see a prototype, they see a product they can imagine handing to their customers.",
+  "contact": "leo@syndicate.capstone"
+}

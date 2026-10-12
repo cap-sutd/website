@@ -1,0 +1,51 @@
+{
+  "id": "xin-jie-fung",
+  "index": "04",
+  "name": "Fung Xin Jie",
+  "pillar": "Systems Optimisation // Data & Research",
+  "pitchReady": true,
+  "portrait": "portrait.jpg",
+  "portfolios": [
+    {
+      "title": "Portfolio & Project Overview",
+      "file": "portfolio.pdf",
+      "link": "https://xinjiesdesk.notion.site/xinjiesportfolio",
+      "category": "Portfolio"
+    },
+    {
+      "title": "Curriculum Vitae",
+      "file": "resume.pdf",
+      "category": "Curriculum Vitae"
+    }
+  ],
+  "stack": [
+    "Python",
+    "SQL",
+    "Gurobi",
+    "Optimisation Modelling",
+    "Time Series Forecasting"
+  ],
+  "summary": "I'm drawn to problems that sit at the intersection of data, systems, and human behaviour. My background is interdisciplinary — applied chemistry before engineering systems design — so I tend to approach things from both a technical and a human-centred side. I enjoy breaking messy challenges down, finding the pattern, and improving how decisions actually get made.",
+  "artifacts": [
+    {
+      "title": "LEDGER — ESG Data Consolidation",
+      "year": "2026",
+      "category": "Internship",
+      "description": "Environmental and operational data across 400+ serviced residences in 20 countries, consolidated and validated for external disclosure."
+    },
+    {
+      "title": "SYNTHESIS — Data Generation & Anonymisation",
+      "year": "2026",
+      "category": "Client Project",
+      "description": "Worked with Credit Bureau Singapore on real data to identify improvements to their data generation and anonymisation system."
+    },
+    {
+      "title": "HOLDING — Airborne & Ground Delay Optimisation",
+      "year": "2026",
+      "category": "Optimisation",
+      "description": "Network optimisation reducing delay cost under capacity constraints, through data-driven planning."
+    }
+  ],
+  "whyMe": "The part of a project I'm most useful in is the messy middle — when data is coming from everywhere in different formats and nobody is sure yet what the real problem is. I've worked through that at Ascott, across 400 properties in 20 countries, and with Credit Bureau Singapore on their data generation and anonymisation system. I like getting a project to the point where a team can build on it without second-guessing the inputs.",
+  "contact": "fung.xj@gmail.com"
+}
