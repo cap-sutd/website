@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "@/pages/Home";
 import TeamLayout from "@/components/TeamLayout";
@@ -9,7 +9,7 @@ import PageNotFound from "./lib/PageNotFound";
 
 function App() {
   return (
-    <Router basename="/website/">
+    <Router>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />

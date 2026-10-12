@@ -8,8 +8,14 @@
   "portfolios": [
     {
       "title": "Resume & Executive Overview",
-      "file": "portfolio.pdf",
+      "file": "resume.pdf",
       "category": "Curriculum Vitae"
+    }, 
+    {
+      "title": "Portfolio & Project Overview",
+      "file": "",
+      "link": "https://joashlsk.github.io/#about",
+      "category": "Portfolio"
     }
   ],
   "stack": [

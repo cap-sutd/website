@@ -52,6 +52,10 @@ export default function MemberDossier() {
   const docFile = currentDoc?.file || currentDoc?.portfolio;
   const downloadTarget = currentDoc?.isHtml ? currentDoc?.download : docFile;
   const hasLink = Boolean(currentDoc?.link);
+  // link exists but no file → iframe the link
+  const linkOnly = hasLink && !currentDoc?.file;
+  const showLightbox =
+    lightboxOpen && currentDoc && !currentDoc.isHtml && (linkOnly || !hasLink);
 
   return (
     <div className="min-h-screen bg-obsidian text-foreground">
@@ -216,7 +220,25 @@ export default function MemberDossier() {
               </div>
               {currentDoc && (
                 <div className="flex items-center gap-2">
-                  {hasLink ? (
+                  {linkOnly ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setLightboxOpen(true)}
+                        className="inline-flex items-center gap-1.5 border border-graphene px-3 py-1.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40"
+                      >
+                        <Maximize2 className="h-3 w-3" /> Expand
+                      </button>
+                      <a
+                        href={currentDoc.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 bg-citrine px-3 py-1.5 font-mono-label text-[10px] font-semibold uppercase tracking-widest text-black transition hover:bg-foreground hover:text-citrine cursor-pointer select-none"
+                      >
+                        <ExternalLink className="h-3 w-3 pointer-events-none" /> Open Website
+                      </a>
+                    </>
+                  ) : hasLink ? (
                     <a
                       href={currentDoc.link}
                       target="_blank"
@@ -305,8 +327,28 @@ export default function MemberDossier() {
             )}
 
             {currentDoc ? (
-              hasLink ? (
-                /* EXTERNAL LINK REDIRECT CARD */
+              linkOnly ? (
+                /* LINK ONLY (no file) → IFRAME THE LINK */
+                <div className="mt-5 overflow-hidden border border-graphene bg-obsidian">
+                  <div className="flex items-center justify-between gap-3 border-b border-graphene bg-secondary/30 px-4 py-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
+                    <span className="flex min-w-0 items-center gap-2">
+                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-citrine" />
+                      <span className="truncate">{currentDoc.title} // {currentDoc.link}</span>
+                    </span>
+                    <span className="shrink-0">LIVE PREVIEW</span>
+                  </div>
+                  <iframe
+                    key={currentDoc.link}
+                    src={currentDoc.link}
+                    title={currentDoc.title}
+                    className="h-[650px] w-full border-0 bg-white"
+                  />
+                  <div className="border-t border-graphene px-4 py-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
+                    Preview blank? Some sites block embedding — use “Open Website” above.
+                  </div>
+                </div>
+              ) : hasLink ? (
+                /* EXTERNAL LINK REDIRECT CARD (link + file) */
                 <a
                   href={currentDoc.link}
                   target="_blank"
@@ -345,11 +387,6 @@ export default function MemberDossier() {
                         <p className="mt-1 font-mono-label text-[11px] text-muted-foreground truncate w-full">
                           {currentDoc.link}
                         </p>
-                      </div>
-                      <div className="shrink-0">
-                        <span className="inline-flex items-center gap-2 bg-citrine px-4 py-2.5 font-mono-label text-[11px] font-semibold uppercase tracking-widest text-black whitespace-nowrap transition group-hover:bg-foreground group-hover:text-citrine">
-                          Open Website <ExternalLink className="h-3.5 w-3.5" />
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -488,35 +525,68 @@ export default function MemberDossier() {
         </div>
       </div>
 
-      {/* Lightbox for images or PDF expand preview */}
-      {lightboxOpen && currentDoc && !currentDoc.isHtml && !hasLink && (
+      {/* Lightbox: images, PDF, or link-only iframe */}
+      {showLightbox && (
         <div
           role="dialog"
           aria-modal="true"
           onClick={() => setLightboxOpen(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/85 p-4 md:p-10"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-foreground/85 p-4 md:p-10"
         >
-          <button
-            type="button"
-            onClick={() => setLightboxOpen(false)}
-            className="absolute right-5 top-5 font-mono-label text-[11px] uppercase tracking-widest text-background transition hover:opacity-70"
-          >
-            [ Close ]
-          </button>
-          {currentDoc.isPdf ? (
-            <iframe
-              src={`${currentDoc.file}#view=FitH`}
-              title={currentDoc.title}
-              className="w-full max-w-5xl h-[85vh] border-0 bg-white"
-              onClick={(e) => e.stopPropagation()}
-            />
+          {linkOnly ? (
+            <>
+              <div
+                className="flex w-full max-w-5xl items-center justify-between"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <a
+                  href={currentDoc.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-citrine px-3 py-1.5 font-mono-label text-[10px] font-semibold uppercase tracking-widest text-black transition hover:bg-foreground hover:text-citrine cursor-pointer select-none"
+                >
+                  <ExternalLink className="h-3 w-3 pointer-events-none" /> Open Website
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(false)}
+                  className="font-mono-label text-[11px] uppercase tracking-widest text-background transition hover:opacity-70"
+                >
+                  [ Close ]
+                </button>
+              </div>
+              <iframe
+                src={currentDoc.link}
+                title={currentDoc.title}
+                className="w-full max-w-5xl flex-1 border-0 bg-white"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </>
           ) : (
-            <img
-              src={currentDoc.file || member.portfolioImage}
-              alt={currentDoc.title || `${member.name} — portfolio & CV`}
-              className="max-h-full max-w-full object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <>
+              <button
+                type="button"
+                onClick={() => setLightboxOpen(false)}
+                className="absolute right-5 top-5 font-mono-label text-[11px] uppercase tracking-widest text-background transition hover:opacity-70"
+              >
+                [ Close ]
+              </button>
+              {currentDoc.isPdf ? (
+                <iframe
+                  src={`${currentDoc.file}#view=FitH`}
+                  title={currentDoc.title}
+                  className="h-[85vh] w-full max-w-5xl border-0 bg-white"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <img
+                  src={currentDoc.file || member.portfolioImage}
+                  alt={currentDoc.title || `${member.name} — portfolio & CV`}
+                  className="max-h-full max-w-full object-contain"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              )}
+            </>
           )}
         </div>
       )}
