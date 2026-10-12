@@ -70,7 +70,7 @@ export default function MemberDossier() {
           <Image
             src={member.image}
             alt={member.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover "
             fittingType="fill"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
@@ -95,7 +95,7 @@ export default function MemberDossier() {
         <div className="px-6 py-10 md:px-12 md:py-16">
           {/* mobile portrait */}
           <div className="relative mb-8 aspect-[4/5] overflow-hidden lg:hidden">
-            <Image src={member.image} alt={member.name} className="h-full w-full object-cover grayscale" fittingType="fill" />
+            <Image src={member.image} alt={member.name} className="h-full w-full object-cover" fittingType="fill" />
             <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
