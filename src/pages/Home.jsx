@@ -3,9 +3,38 @@ import { Link } from "react-router-dom";
 import { collective, teamMembers } from "@/data/team";
 import SystemTicker from "@/components/SystemTicker";
 import { Image } from "@/components/ui/image";
+import { User } from "lucide-react";
+
+// "Coming soon" = explicitly flagged, or the profile is incomplete
+// (missing name, summary or portrait, e.g. the empty template JSON).
+const isComingSoon = (m) =>
+  Boolean(m?.comingSoon) ||
+  !m?.name?.trim() ||
+  !m?.summary?.trim() ||
+  !(m?.image || m?.portrait);
+
+function ComingSoonSticker() {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center overflow-hidden">
+      <div className="-rotate-12 whitespace-nowrap border-2 md:border-[3px] border-black bg-citrine px-2.5 py-1 font-heading text-xl sm:text-2xl md:text-xl lg:text-xl font-extrabold uppercase tracking-tighter text-black shadow-xl ring-1 ring-citrine ring-offset-2 ring-offset-black">
+        Coming Soon
+      </div>
+    </div>
+  );
+}
 
 // View 01 — The "Manifesto" Hero
 export default function Home() {
+  // Full-screen strip layout (max 7 members):
+  //   1-5 members -> a single row
+  //   6 members   -> 2 rows of 3
+  //   7 members   -> 3 on top, 4 below
+  const total = teamMembers.length;
+  const topCount = total <= 5 ? total : 3;
+  const bottomCount = total - topCount;
+  // 60 columns divides evenly by 1-6 per row, so any row split fills the full width
+  const spanFor = (i) => 60 / (i < topCount ? topCount : bottomCount);
+
   return (
     <div className="min-h-screen bg-obsidian text-foreground">
       <SystemTicker />
@@ -86,6 +115,7 @@ export default function Home() {
 
       {/* Collective preview strip */}
       <section className="border-t border-graphene px-6 py-16 md:px-10">
+        <div className="mx-auto w-full lg:max-w-5xl">
         <div className="mb-10 flex items-end justify-between">
           <div className="font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
             FILE 02 // THE COLLECTIVE
@@ -94,25 +124,41 @@ export default function Home() {
             View all →
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-px bg-graphene md:grid-cols-5">
-          {teamMembers.map((m) => (
-            <Link key={m.id} to={`/team/${m.id}`} className="group relative block aspect-[3/4] overflow-hidden bg-obsidian">
-              <Image
-                src={m.image}
-                alt={m.name}
-                className="h-full w-full object-cover grayscale transition duration-500 group-hover:grayscale-0"
-                fittingType="fill"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className="font-mono-label text-[10px] text-foreground">{m.index}</div>
-                <div className="font-heading text-base font-bold tracking-tight">{m.name}</div>
-                <div className="font-mono-label text-[10px] uppercase tracking-wide text-muted-foreground">
-                  {m.pillar.split(" // ")[0]}
+        {/* Full screen (lg+): up to 5 = one row, 6 = 3 + 3, 7 = 3 top + 4 bottom. Tablet: 4 per row. Mobile: 2 per row. */}
+        <div className="grid grid-cols-2 gap-px bg-graphene md:grid-cols-4 lg:[grid-template-columns:repeat(60,minmax(0,1fr))]">
+          {teamMembers.map((m, i) => {
+            const comingSoon = isComingSoon(m);
+            const imageSrc = m.image || m.portrait || "";
+
+            return (
+              <Link key={m.id} to={`/team/${m.id}`} style={{ "--span": spanFor(i) }}
+                className="group relative block aspect-[3/4] overflow-hidden bg-obsidian lg:aspect-auto lg:h-80 lg:[grid-column:span_var(--span)/span_var(--span)]"
+              >
+                {imageSrc ? (
+                  <Image
+                    src={imageSrc}
+                    alt={m.name}
+                    className={`h-full w-full object-cover object-top grayscale transition duration-500 group-hover:grayscale-0 ${comingSoon ? "opacity-60" : ""}`}
+                    fittingType="fill"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-secondary/40">
+                    <User className="h-1/3 w-1/3 text-muted-foreground/40" strokeWidth={1} />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
+                {comingSoon && <ComingSoonSticker />}
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <div className="font-mono-label text-[10px] text-foreground">{m.index}</div>
+                  <div className="font-heading text-base font-bold tracking-tight">{m.name || "To Be Announced"}</div>
+                  <div className="font-mono-label text-[10px] uppercase tracking-wide text-muted-foreground">
+                    {(m.pillar || "").split(" // ")[0] || (comingSoon ? "Profile pending" : "")}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
+        </div>
         </div>
       </section>
 

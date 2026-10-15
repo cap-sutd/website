@@ -1,9 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getMember, teamMembers, collective } from "@/data/team";
 import { Image } from "@/components/ui/image";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { ArrowLeft, ArrowRight, Mail, FileText, ExternalLink, Download, Code, Maximize2, X, ZoomIn, ZoomOut, RotateCcw, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Mail, FileText, ExternalLink, Download, Code, Maximize2, User, X, ZoomIn, ZoomOut, RotateCcw, ArrowUpRight } from "lucide-react";
+
+function useSwipe({ onNext, onPrev, threshold = 50 }) {
+  const start = useRef(null);
+  return {
+    onTouchStart: (e) => {
+      const t = e.touches[0];
+      start.current = { x: t.clientX, y: t.clientY };
+    },
+    onTouchEnd: (e) => {
+      if (!start.current) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - start.current.x;
+      const dy = t.clientY - start.current.y;
+      start.current = null;
+      // horizontal swipes only, so vertical scrolling is unaffected
+      if (Math.abs(dx) < threshold || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      if (dx < 0) onNext();
+      else onPrev();
+    },
+  };
+}
+
+function ComingSoonSticker({ className = "" }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center overflow-hidden">
+      <div
+        className={`-rotate-12 whitespace-nowrap border-4 border-black bg-citrine px-5 py-2 font-heading font-extrabold uppercase tracking-tighter text-black shadow-2xl ring-2 ring-citrine ring-offset-2 ring-offset-black ${className}`}
+      >
+        Coming Soon
+      </div>
+    </div>
+  );
+}
 
 function PreviewHeader({ title, zoom, setZoom, onClose }) {
   return (
@@ -61,6 +94,50 @@ export default function MemberDossier() {
     if (lightboxOpen) setPopupZoom(1);
   }, [lightboxOpen]);
 
+  // Template / placeholder profiles (empty JSON) get a "Coming Soon" sticker.
+  // Set `"comingSoon": true` in the JSON to force it for any profile.
+  const isComingSoon =
+    Boolean(member?.comingSoon) || (!member?.name?.trim() && !member?.summary?.trim());
+  const imageSrc = member?.image || member?.portrait || "";
+
+  // ignore blank template rows so they don't render as empty tabs / broken previews
+  const realArtifacts = (member?.artifacts || []).filter((a) => a?.title?.trim());
+  const rawDocs = member?.portfolios || (Array.isArray(member?.portfolio) ? member.portfolio : []);
+  const realDocs = rawDocs.filter((d) => d?.file || d?.link || d?.portfolio);
+
+  const categoryOptions = ["All", ...Array.from(new Set(realArtifacts.map((a) => a.category))).sort()];
+  const filteredArtifacts =
+    category === "all" ? realArtifacts : realArtifacts.filter((a) => a.category === category);
+  const safeActive = Math.min(activeArtifact, Math.max(0, filteredArtifacts.length - 1));
+
+  const docs = realDocs;
+  const safeDocIndex = Math.min(activeDocIndex, Math.max(0, docs.length - 1));
+  const currentDoc = docs[safeDocIndex] || null;
+
+  const artifactSwipe = useSwipe({
+    onNext: () => setActiveArtifact(Math.min(safeActive + 1, filteredArtifacts.length - 1)),
+    onPrev: () => setActiveArtifact(Math.max(safeActive - 1, 0)),
+  });
+  const docSwipe = useSwipe({
+    onNext: () => setActiveDocIndex(Math.min(safeDocIndex + 1, docs.length - 1)),
+    onPrev: () => setActiveDocIndex(Math.max(safeDocIndex - 1, 0)),
+  });
+
+  // keep the active tab visible in its strip when changed by swiping
+  const artifactStripRef = useRef(null);
+  const docStripRef = useRef(null);
+  const centerActive = (strip) => {
+    const el = strip?.querySelector('[data-active="true"]');
+    if (strip && el) {
+      strip.scrollTo({
+        left: el.offsetLeft - (strip.clientWidth - el.clientWidth) / 2,
+        behavior: "smooth",
+      });
+    }
+  };
+  useEffect(() => centerActive(artifactStripRef.current), [safeActive, category]);
+  useEffect(() => centerActive(docStripRef.current), [safeDocIndex]);
+
   if (!member) {
     return (
       <div className="flex flex-col h-screen w-full items-center justify-center gap-4 bg-obsidian px-6 text-center">
@@ -77,15 +154,6 @@ export default function MemberDossier() {
 
   const currentIndex = teamMembers.findIndex((m) => m.id === member.id);
   const next = teamMembers[(currentIndex !== -1 ? currentIndex + 1 : 0) % teamMembers.length];
-
-  const categoryOptions = ["All", ...Array.from(new Set(member.artifacts?.map((a) => a.category) || [])).sort()];
-  const filteredArtifacts =
-    category === "all" ? (member.artifacts || []) : (member.artifacts || []).filter((a) => a.category === category);
-  const safeActive = Math.min(activeArtifact, Math.max(0, filteredArtifacts.length - 1));
-
-  const docs = member.portfolios || [];
-  const safeDocIndex = Math.min(activeDocIndex, Math.max(0, docs.length - 1));
-  const currentDoc = docs[safeDocIndex] || null;
 
   const docFile = currentDoc?.file || currentDoc?.portfolio;
   const downloadTarget = currentDoc?.isHtml ? currentDoc?.download : docFile;
@@ -107,16 +175,23 @@ export default function MemberDossier() {
         
         {/* LEFT COLUMN */}
         <div className="hidden lg:block sticky top-0 w-1/2 h-screen border-r border-graphene shrink-0 overflow-hidden">
-          <Image
-            src={member.image}
-            alt={member.name}
-            className="h-full w-full object-cover"
-            fittingType="fill"
-          />
+          {imageSrc ? (
+            <Image
+              src={imageSrc}
+              alt={member.name}
+              className={`h-full w-full object-cover ${isComingSoon ? "opacity-60" : ""}`}
+              fittingType="fill"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-secondary/40">
+            <User className="h-1/3 w-1/3 text-muted-foreground/40" strokeWidth={1} />
+          </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
+          {isComingSoon && <ComingSoonSticker className="text-5xl xl:text-6xl" />}
           <div className="absolute bottom-0 left-0 right-0 p-8">
             <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
-            <div className="mt-2 font-heading text-5xl font-extrabold tracking-tighter">{member.name}</div>
+            <div className="mt-2 font-heading text-5xl font-extrabold tracking-tighter">{member.name || "To Be Announced"}</div>
             <div className="mt-1 font-mono-label text-[11px] uppercase tracking-widest text-muted-foreground">
               {member.pillar}
             </div>
@@ -136,16 +211,23 @@ export default function MemberDossier() {
           
           {/* mobile portrait */}
           <div className="relative mb-8 aspect-[4/5] overflow-hidden lg:hidden">
-            <Image 
-              src={member.image} 
-              alt={member.name} 
-              className="h-full w-full object-cover" 
-              fittingType="fill"
-            />
+            {imageSrc ? (
+              <Image 
+                src={imageSrc} 
+                alt={member.name} 
+                className={`h-full w-full object-cover ${isComingSoon ? "opacity-60" : ""}`}
+                fittingType="fill"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-secondary/40">
+              <User className="h-1/3 w-1/3 text-muted-foreground/40" strokeWidth={1} />
+            </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
+            {isComingSoon && <ComingSoonSticker className="text-3xl sm:text-5xl" />}
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
-              <div className="mt-1 font-heading text-3xl font-extrabold tracking-tight">{member.name}</div>
+              <div className="mt-1 font-heading text-3xl font-extrabold tracking-tight">{member.name || "To Be Announced"}</div>
               <div className="font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">{member.pillar}</div>
             </div>
           </div>
@@ -156,7 +238,7 @@ export default function MemberDossier() {
               / Executive Summary
             </div>
             <p className="mt-5 text-xl font-light leading-relaxed text-foreground md:text-2xl">
-              {member.summary}
+              {member.summary || "This dossier is still being prepared."}
             </p>
           </section>
 
@@ -205,11 +287,12 @@ export default function MemberDossier() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="mt-6 overflow-x-auto">
+              <div ref={artifactStripRef} className="relative mt-6 overflow-x-auto">
                 <div className="flex gap-px bg-graphene">
                   {filteredArtifacts.map((a, i) => (
                     <button
                       key={a.title || i}
+                      data-active={safeActive === i}
                       type="button"
                       onClick={() => setActiveArtifact(i)}
                       className={`min-w-[180px] flex-1 border-0 p-5 text-left transition ${
@@ -228,7 +311,7 @@ export default function MemberDossier() {
                 </div>
               </div>
               {filteredArtifacts[safeActive] && (
-                <div className="mt-5 border border-graphene p-6">
+                <div {...artifactSwipe} className="mt-5 touch-pan-y border border-graphene p-6">
                   <div className="font-mono-label text-[10px] uppercase tracking-widest text-foreground">
                     {filteredArtifacts[safeActive].year} — {filteredArtifacts[safeActive].category}
                   </div>
@@ -249,6 +332,11 @@ export default function MemberDossier() {
                       <span>Click here to view more details</span>
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </button>
+                    {filteredArtifacts.length > 1 && (
+                      <span className="font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground md:hidden">
+                        ← Swipe → {safeActive + 1}/{filteredArtifacts.length}
+                      </span>
+                    )}
                   </div>
                 </div>
               )}
@@ -343,11 +431,12 @@ export default function MemberDossier() {
             </div>
 
             {docs.length > 1 && (
-              <div className="mt-6 overflow-x-auto">
+              <div ref={docStripRef} className="relative mt-6 overflow-x-auto">
                 <div className="flex gap-px bg-graphene">
                   {docs.map((doc, idx) => (
                     <button
                       key={doc.id || idx}
+                      data-active={safeDocIndex === idx}
                       type="button"
                       onClick={() => setActiveDocIndex(idx)}
                       className={`min-w-[190px] flex-1 border-0 p-4 text-left transition cursor-pointer ${
@@ -382,6 +471,7 @@ export default function MemberDossier() {
               </div>
             )}
 
+            <div {...docSwipe} className="touch-pan-y">
             {currentDoc ? (
               linkOnly ? (
                 <div className="mt-5 overflow-hidden border border-graphene bg-obsidian">
@@ -534,6 +624,12 @@ export default function MemberDossier() {
                 FILE PENDING // CV ON REQUEST
               </div>
             )}
+            {docs.length > 1 && (
+              <div className="mt-3 text-center font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground md:hidden">
+                ← Swipe → {safeDocIndex + 1}/{docs.length}
+              </div>
+            )}
+            </div>
           </section>
 
           {/* Direct contact */}
@@ -567,7 +663,7 @@ export default function MemberDossier() {
                   Next Dossier // {next.index}
                 </span>
                 <span className="mt-1 block font-heading text-3xl font-extrabold tracking-tight transition group-hover:text-foreground">
-                  {next.name}
+                  {next.name || "Coming Soon"}
                 </span>
               </span>
               <ArrowRight className="h-8 w-8 text-foreground transition group-hover:translate-x-2" />

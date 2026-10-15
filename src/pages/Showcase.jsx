@@ -11,27 +11,10 @@ export default function Showcase() {
   const [category, setCategory] = useState("all");
   const [member, setMember] = useState("all");
   const [expandedKey, setExpandedKey] = useState(null);
-  const [columns, setColumns] = useState(3);
   const [activeMediaIndex, setActiveMediaIndex] = useState(0);
   
   // Ref to target the active inspector drawer for smooth autoscrolling
   const drawerRef = useRef(null);
-
-  // Responsive column detection (1 for mobile, 2 for tablet/split screen, 3 for desktop)
-  useEffect(() => {
-    const updateColumns = () => {
-      if (window.innerWidth < 640) {
-        setColumns(1);
-      } else if (window.innerWidth < 1024) {
-        setColumns(2);
-      } else {
-        setColumns(3);
-      }
-    };
-    updateColumns();
-    window.addEventListener("resize", updateColumns);
-    return () => window.removeEventListener("resize", updateColumns);
-  }, []);
 
   const allProjects = useMemo(
     () =>
@@ -80,10 +63,6 @@ export default function Showcase() {
           setMember("all");
           setExpandedKey(targetKey);
           setActiveMediaIndex(0);
-
-          setTimeout(() => {
-            drawerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, 150);
         }
       }
       
@@ -91,11 +70,60 @@ export default function Showcase() {
     }
   }, [location.state, allProjects]);
 
+  useEffect(() => {
+    if (!expandedKey) return;
+    const t = setTimeout(() => {
+      drawerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+    return () => clearTimeout(t);
+  }, [expandedKey]);
+
+  // Filters depend on each other: categories shown = those the selected specialist has,
+  // specialists shown = those who have projects in the selected category.
   const categories = useMemo(
-    () => ["All", ...Array.from(new Set(allProjects.map((p) => p.category))).sort()],
-    [allProjects]
+    () => [
+      "All",
+      ...Array.from(
+        new Set(
+          allProjects
+            .filter((p) => member === "all" || p.memberName === member)
+            .map((p) => p.category)
+            .filter(Boolean)
+        )
+      ).sort(),
+    ],
+    [allProjects, member]
   );
-  const members = useMemo(() => ["All", ...teamMembers.map((m) => m.name)], []);
+  const members = useMemo(
+    () => [
+      "All",
+      ...Array.from(
+        new Set(
+          allProjects
+            .filter((p) => category === "all" || p.category === category)
+            .map((p) => p.memberName)
+            .filter((n) => n && n.trim())
+        )
+      ),
+    ],
+    [allProjects, category]
+  );
+
+  const handleMemberChange = (v) => {
+    setMember(v);
+    // drop the category if this specialist has nothing in it
+    if (v !== "all" && category !== "all" && !allProjects.some((p) => p.memberName === v && p.category === category)) {
+      setCategory("all");
+    }
+    setExpandedKey(null);
+  };
+  const handleCategoryChange = (v) => {
+    setCategory(v);
+    if (v !== "all" && member !== "all" && !allProjects.some((p) => p.memberName === member && p.category === v)) {
+      setMember("all");
+    }
+    setExpandedKey(null);
+  };
 
   const filtered = allProjects.filter(
     (p) =>
@@ -103,15 +131,7 @@ export default function Showcase() {
       (member === "all" || p.memberName === member)
   );
 
-  const chunkArray = (array, size) => {
-    const chunked = [];
-    for (let i = 0; i < array.length; i += size) {
-      chunked.push(array.slice(i, i + size));
-    }
-    return chunked;
-  };
-
-  const rows = chunkArray(filtered, columns);
+  const activeProject = filtered.find((p) => `${p.memberId}-${p.title}` === expandedKey);
 
   return (
     <div className="flex flex-col w-full h-full min-h-screen">
@@ -141,7 +161,7 @@ export default function Showcase() {
             <span className="font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
               Category
             </span>
-            <Select value={category} onValueChange={(v) => { setCategory(v); setExpandedKey(null); }}>
+            <Select value={category} onValueChange={handleCategoryChange}>
               <SelectTrigger className="w-[220px] border-graphene bg-transparent font-mono-label text-[10px] uppercase tracking-widest text-foreground">
                 <SelectValue />
               </SelectTrigger>
@@ -158,7 +178,7 @@ export default function Showcase() {
             <span className="font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
               Specialist
             </span>
-            <Select value={member} onValueChange={(v) => { setMember(v); setExpandedKey(null); }}>
+            <Select value={member} onValueChange={handleMemberChange}>
               <SelectTrigger className="w-[220px] border-graphene bg-transparent font-mono-label text-[10px] uppercase tracking-widest text-foreground">
                 <SelectValue />
               </SelectTrigger>
@@ -177,67 +197,62 @@ export default function Showcase() {
         </div>
       </section>
 
-      {/* Grid Showcase rendered row by row */}
-      <div className="flex flex-col gap-px bg-graphene">
-        {rows.map((rowItems, rowIndex) => {
-          const isRowContainingExpanded = rowItems.some((p) => `${p.memberId}-${p.title}` === expandedKey);
-          const activeProject = rowItems.find((p) => `${p.memberId}-${p.title}` === expandedKey);
+      {/* All project cards live in ONE scrollable container so the page stays short */}
+      <div className="relative border-b border-graphene">
+        <div className="flex items-center justify-between border-b border-graphene bg-obsidian px-6 py-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground md:px-10">
+          <span>{filtered.length} projects</span>
+          <span>Scroll to browse ↓</span>
+        </div>
+        <div className="max-h-[70vh] overflow-y-auto overscroll-contain bg-graphene">
+          <div className="grid grid-cols-1 gap-px bg-graphene sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {filtered.map((p) => {
+              const key = `${p.memberId}-${p.title}`;
+              const isOpen = expandedKey === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => {
+                    setExpandedKey(isOpen ? null : key);
+                    setActiveMediaIndex(0);
+                  }}
+                  className={`group flex h-60 flex-col overflow-hidden p-5 text-left transition ${
+                    isOpen ? "bg-secondary/90 border-l-2 border-graphene" : "bg-obsidian hover:bg-secondary/40"
+                  }`}
+                >
+                  <div className="flex items-center justify-between font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
+                    <span>{p.category}</span>
+                    <span>{p.year}</span>
+                  </div>
+                  <div className="mt-3 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden font-heading text-xl xl:text-lg font-extrabold leading-tight tracking-tight">
+                    {p.title}
+                  </div>
+                  <p className="mt-2 mb-3 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] overflow-hidden text-xs xl:text-[11px] leading-relaxed text-muted-foreground">
+                    {p.summary}
+                  </p>
+                  <div className="mt-auto flex items-center justify-between border-t border-graphene pt-3">
+                    <span className="font-mono-label text-[10px] uppercase tracking-wide text-muted-foreground group-hover:text-foreground">
+                      {p.memberIndex} // {p.memberName}
+                    </span>
+                    {isOpen ? (
+                      <span className="inline-flex items-center gap-1 border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 font-mono-label text-[10px] font-semibold uppercase tracking-widest text-rose-400 transition hover:bg-rose-500 hover:text-black">
+                        <X className="h-3 w-3" /> Close
+                      </span>
+                    ) : (
+                      <span className="font-mono-label text-[10px] uppercase tracking-widest text-[#a8b238] transition group-hover:text-[#c4d03f] group-hover:translate-x-1">
+                        Inspect →
+                      </span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
-          return (
-            <React.Fragment key={rowIndex}>
-              {/* Row Items Grid */}
-              <div 
-                className="grid gap-px bg-graphene"
-                style={{
-                  gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-                }}
-              >
-                {rowItems.map((p) => {
-                  const key = `${p.memberId}-${p.title}`;
-                  const isOpen = expandedKey === key;
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => {
-                        setExpandedKey(isOpen ? null : key);
-                        setActiveMediaIndex(0);
-                      }}
-                      className={`group flex flex-col p-6 text-left transition ${
-                        isOpen ? "bg-secondary/90 border-l-2 border-graphene" : "bg-obsidian hover:bg-secondary/40"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
-                        <span>{p.category}</span>
-                        <span>{p.year}</span>
-                      </div>
-                      <div className="mt-3 font-heading text-xl sm:text-2xl font-extrabold leading-tight tracking-tight">
-                        {p.title}
-                      </div>
-                      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                        {p.summary}
-                      </p>
-                      <div className="mt-5 flex items-center justify-between border-t border-graphene pt-4">
-                        <span className="font-mono-label text-[10px] uppercase tracking-wide text-muted-foreground group-hover:text-foreground">
-                          {p.memberIndex} // {p.memberName}
-                        </span>
-                        {isOpen ? (
-                          <span className="inline-flex items-center gap-1 border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 font-mono-label text-[10px] font-semibold uppercase tracking-widest text-rose-400 transition hover:bg-rose-500 hover:text-black">
-                            <X className="h-3 w-3" /> Close
-                          </span>
-                        ) : (
-                          <span className="font-mono-label text-[10px] uppercase tracking-widest text-[#a8b238] transition group-hover:text-[#c4d03f] group-hover:translate-x-1">
-                            Inspect →
-                          </span>
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Inspector Drawer opening below the row */}
-              {isRowContainingExpanded && activeProject && (
+      {/* Inspector Drawer: opens below the card container for the selected project */}
+      {activeProject && (
                 <div ref={drawerRef} className="border-t border-b border-graphene bg-obsidian/95 p-6 md:p-12 animate-fade-in scroll-mt-6">
                   <div className="flex items-center justify-between border-b border-graphene pb-4 mb-6">
                     <div className="flex items-center gap-3">
@@ -255,9 +270,14 @@ export default function Showcase() {
                     </button>
                   </div>
 
+                  {/*
+                    Mobile order:  1) media  2) write-up  3) owner
+                    Desktop (lg):  media + owner side by side, write-up underneath
+                    Handled with CSS `order` so the DOM stays the same.
+                  */}
                   <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
-                    {/* Media / Carousel Container */}
-                    <div className="lg:col-span-2">
+                    {/* 1. Media / Carousel Container */}
+                    <div className="order-1 lg:col-span-2">
                       {activeProject.mediaList.length > 0 ? (
                         <div className="relative aspect-[16/9] w-full overflow-hidden border border-graphene bg-secondary">
                           <Image
@@ -310,11 +330,13 @@ export default function Showcase() {
                       )}
                     </div>
 
-                    {/* Sidebar Details: Name -> Portrait Image (m.image) -> Stack -> Action Buttons */}
-                    <div className="border-t border-graphene pt-6 lg:border-t-0 lg:pl-8 lg:pt-0 flex flex-col justify-between h-full">
-                      <div className="space-y-5">
-                        {/* 1. Name */}
-                        <div>
+                    {/* 3. Owner sidebar
+                        Mobile: portrait on the left, name/role/stack on the right, buttons underneath.
+                        Desktop: original stacked layout (name -> portrait -> stack -> buttons). */}
+                    <div className="order-3 lg:order-2 border-t border-graphene pt-6 lg:border-t-0 lg:pl-8 lg:pt-0 flex flex-col justify-between h-full">
+                      <div className="grid grid-cols-[7rem_minmax(0,1fr)] sm:grid-cols-[9rem_minmax(0,1fr)] gap-x-4 gap-y-3 lg:flex lg:flex-col lg:gap-0 lg:space-y-5">
+                        {/* Name (right column on mobile) */}
+                        <div className="col-start-2 row-start-1">
                           <div className="font-mono-label text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                             / Owner
                           </div>
@@ -326,9 +348,9 @@ export default function Showcase() {
                           </div>
                         </div>
 
-                        {/* 2. Portrait Image (m.image, no greyscale) */}
+                        {/* Portrait (left column on mobile, spans name + stack rows) */}
                         {activeProject.memberPortrait && (
-                          <div className="relative aspect-[3/4] w-40 overflow-hidden border border-graphene bg-secondary">
+                          <div className="col-start-1 row-start-1 row-span-2 self-start relative aspect-[3/4] w-28 sm:w-36 lg:w-40 overflow-hidden border border-graphene bg-secondary">
                             <Image
                               src={activeProject.memberPortrait}
                               alt={activeProject.memberName}
@@ -338,8 +360,8 @@ export default function Showcase() {
                           </div>
                         )}
 
-                        {/* 3. Stack */}
-                        <div>
+                        {/* Stack (right column on mobile) */}
+                        <div className="col-start-2 row-start-2">
                           <div className="font-mono-label text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                             / Stack
                           </div>
@@ -378,8 +400,8 @@ export default function Showcase() {
                       </div>
                     </div>
 
-                    {/* Tag & Description from projectDetails dictionary */}
-                    <div className="lg:col-span-3 space-y-4 border-t border-graphene pt-6">
+                    {/* 2. Write-up: tag & description from projectDetails dictionary */}
+                    <div className="order-2 lg:order-3 lg:col-span-3 space-y-4 lg:border-t border-graphene lg:pt-6">
                       {activeProject.projectDetails?.tag && (
                         <div className="font-mono-label text-[11px] uppercase tracking-widest">
                           <span className="inline-block border border-graphene bg-secondary/40 px-3 py-1 font-semibold text-foreground">
@@ -404,11 +426,7 @@ export default function Showcase() {
                     </div>
                   </div>
                 </div>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
+      )}
 
       {filtered.length === 0 && (
         <div className="px-6 py-20 text-center font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
