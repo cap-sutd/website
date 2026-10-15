@@ -16,6 +16,12 @@
       "file": "",
       "link": "https://joashlsk.github.io/#about",
       "category": "Portfolio"
+    },
+    {
+      "title": "Radiant Digital SG",
+      "file": "radiant.png",
+      "link": "https://www.radiantdigitalsg.com/",
+      "category": "Personal Startup"
     }
   ],
   "stack": [
@@ -33,25 +39,30 @@
       "title": "INFINEON — Multi-Modal RAG Pipeline",
       "year": "2026",
       "category": "Data & Analytics",
-      "description": "Dual-path hybrid search with custom score fusion; 96% accuracy under LLM-as-a-judge evaluation. CBS Data & Business Analytics Project Award 2026."
+      "summary": "Dual-path hybrid search with custom score fusion; 96% accuracy under LLM-as-a-judge evaluation. CBS Data & Business Analytics Project Award 2026.",
+      "project details": {
+        "tags": ["RAG", "LLM", "Data Analytics"],
+        "links": "https://github.com/joashlsk/multi-modal-rag",
+        "description": "A multi-modal RAG pipeline that combines text and image embeddings for improved retrieval. The system uses a dual-path approach with custom score fusion to enhance accuracy, achieving 96% accuracy under LLM-as-a-judge evaluation. This project was recognized with the CBS Data & Business Analytics Project Award in 2026."
+      }
     },
     {
       "title": "LOVE, BONITO — Warehouse Forecasting & 3PL Tracking",
       "year": "2026",
       "category": "Internship",
-      "description": "Built warehouse forecasting and 3PL KPI tracking; ran UAT for the SAP, OMS and WMS integration across the SG and MY distribution centres."
+      "summary": "Built warehouse forecasting and 3PL KPI tracking; ran UAT for the SAP, OMS and WMS integration across the SG and MY distribution centres."
     },
     {
       "title": "THE ROBOT COMPANY — Full-Swerve Robot Deployment",
       "year": "2026",
       "category": "Robotics",
-      "description": "Engineered and deployed a full-swerve robotic system for AI Engineer Singapore 2026, balancing battery life, weight and payload."
+      "summary": "Engineered and deployed a full-swerve robotic system for AI Engineer Singapore 2026, balancing battery life, weight and payload."
     },
     {
       "title": "APTURA — Expert Operations Scale-Up",
       "year": "2025",
       "category": "Operations",
-      "description": "Scaled a finance-expert data-labelling team from 6 to 50+ and improved onboarding efficiency 3–4x."
+      "summary": "Scaled a finance-expert data-labelling team from 6 to 50+ and improved onboarding efficiency 3–4x."
     }
   ],
   "whyMe": "A capstone fails when the plan looks good on paper but breaks at delivery. I make sure it doesn't. I've run UAT, written SOPs, scaled teams and shipped hardware to a live event — I keep the timeline, the stakeholders and the system moving together, so the partner gets something that actually works inside their operations.",

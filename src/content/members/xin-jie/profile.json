@@ -8,7 +8,7 @@
   "portfolios": [
     {
       "title": "Portfolio & Project Overview",
-      "file": "portfolio.pdf",
+      "file": "portfolio.png",
       "link": "https://xinjiesdesk.notion.site/xinjiesportfolio",
       "category": "Portfolio"
     },
@@ -16,6 +16,12 @@
       "title": "Curriculum Vitae",
       "file": "resume.pdf",
       "category": "Curriculum Vitae"
+    }, 
+    {
+      "title": "Radiant Digital SG",
+      "file": "radiant.png",
+      "link": "https://www.radiantdigitalsg.com/",
+      "category": "Personal Startup"
     }
   ],
   "stack": [
@@ -31,19 +37,19 @@
       "title": "LEDGER — ESG Data Consolidation",
       "year": "2026",
       "category": "Internship",
-      "description": "Environmental and operational data across 400+ serviced residences in 20 countries, consolidated and validated for external disclosure."
+      "summary": "Environmental and operational data across 400+ serviced residences in 20 countries, consolidated and validated for external disclosure."
     },
     {
       "title": "SYNTHESIS — Data Generation & Anonymisation",
       "year": "2026",
       "category": "Client Project",
-      "description": "Worked with Credit Bureau Singapore on real data to identify improvements to their data generation and anonymisation system."
+      "summary": "Worked with Credit Bureau Singapore on real data to identify improvements to their data generation and anonymisation system."
     },
     {
       "title": "HOLDING — Airborne & Ground Delay Optimisation",
       "year": "2026",
       "category": "Optimisation",
-      "description": "Network optimisation reducing delay cost under capacity constraints, through data-driven planning."
+      "summary": "Network optimisation reducing delay cost under capacity constraints, through data-driven planning."
     }
   ],
   "whyMe": "The part of a project I'm most useful in is the messy middle — when data is coming from everywhere in different formats and nobody is sure yet what the real problem is. I've worked through that at Ascott, across 400 properties in 20 countries, and with Credit Bureau Singapore on their data generation and anonymisation system. I like getting a project to the point where a team can build on it without second-guessing the inputs.",

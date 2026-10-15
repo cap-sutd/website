@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { getMember, teamMembers, collective } from "@/data/team";
 import { Image } from "@/components/ui/image";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { ArrowLeft, ArrowRight, Mail, FileText, ExternalLink, Download, Code, Maximize2, X, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { ArrowLeft, ArrowRight, Mail, FileText, ExternalLink, Download, Code, Maximize2, X, ArrowUpRight } from "lucide-react";
 
-// View 03 — The "Specialist Dossier" (Individual Member Page)
 export default function MemberDossier() {
   const { memberId } = useParams();
+  const navigate = useNavigate();
   const member = getMember(memberId);
   const [activeArtifact, setActiveArtifact] = useState(0);
   const [activeDocIndex, setActiveDocIndex] = useState(0);
@@ -25,7 +25,7 @@ export default function MemberDossier() {
 
   if (!member) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-obsidian px-6 text-center">
+      <div className="flex flex-col min-h-screen w-full items-center justify-center gap-4 bg-obsidian px-6 text-center">
         <div className="font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
           ERROR // FILE NOT FOUND
         </div>
@@ -52,13 +52,10 @@ export default function MemberDossier() {
   const docFile = currentDoc?.file || currentDoc?.portfolio;
   const downloadTarget = currentDoc?.isHtml ? currentDoc?.download : docFile;
   const hasLink = Boolean(currentDoc?.link);
-  // link exists but no file → iframe the link
   const linkOnly = hasLink && !currentDoc?.file;
-  const showLightbox =
-    lightboxOpen && currentDoc && !currentDoc.isHtml && (linkOnly || !hasLink);
 
   return (
-    <div className="min-h-screen bg-obsidian text-foreground">
+    <div className="flex flex-col w-full bg-obsidian text-foreground">
       {/* Top bar */}
       <div className="flex items-center justify-between border-b border-graphene px-6 py-3 font-mono-label text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:px-12">
         <Link to="/team" className="flex items-center gap-2 transition hover:text-foreground">
@@ -68,34 +65,40 @@ export default function MemberDossier() {
         <span className="hidden md:inline">{collective.cohort}</span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2">
-        {/* LEFT — fixed portrait */}
-        <div className="relative hidden h-screen lg:block lg:sticky lg:top-0">
-          <Image
-            src={member.image}
-            alt={member.name}
-            className="h-full w-full object-cover "
-            fittingType="fill"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-8">
-            <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
-            <div className="mt-2 font-heading text-5xl font-extrabold tracking-tighter">{member.name}</div>
-            <div className="mt-1 font-mono-label text-[11px] uppercase tracking-widest text-muted-foreground">
-              {member.pillar}
-            </div>
-            <div className="mt-4 flex items-center gap-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
-              <span
-                className={`inline-block h-1.5 w-1.5 rounded-full ${
-                  member.pitchReady ? "bg-citrine animate-pulse-dot" : "bg-foreground/30"
-                }`}
-              />
-              {member.pitchReady ? "Pitch Ready" : "Standby"}
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 relative">
+        
+        {/* LEFT COLUMN — The "Track" (naturally stretches to the height of the right column) */}
+        <div className="hidden lg:block border-r border-graphene relative">
+          
+          {/* STICKY ELEMENT — Slides down the track as you scroll */}
+          <div className="sticky top-0 h-screen w-full overflow-hidden">
+            <Image
+              src={member.image}
+              alt={member.name}
+              className="h-full w-full object-cover"
+              fittingType="fill"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-8">
+              <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
+              <div className="mt-2 font-heading text-5xl font-extrabold tracking-tighter">{member.name}</div>
+              <div className="mt-1 font-mono-label text-[11px] uppercase tracking-widest text-muted-foreground">
+                {member.pillar}
+              </div>
+              <div className="mt-4 flex items-center gap-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
+                <span
+                  className={`inline-block h-1.5 w-1.5 rounded-full ${
+                    member.pitchReady ? "bg-citrine animate-pulse-dot" : "bg-foreground/30"
+                  }`}
+                />
+                {member.pitchReady ? "Pitch Ready" : "Standby"}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* RIGHT — scrollable intel feed */}
+        {/* RIGHT COLUMN — Scrollable Intel Feed */}
         <div className="px-6 py-10 md:px-12 md:py-16">
           {/* mobile portrait */}
           <div className="relative mb-8 aspect-[4/5] overflow-hidden lg:hidden">
@@ -191,8 +194,23 @@ export default function MemberDossier() {
                     {filteredArtifacts[safeActive].year} — {filteredArtifacts[safeActive].category}
                   </div>
                   <p className="mt-3 text-lg leading-relaxed text-foreground">
-                    {filteredArtifacts[safeActive].description}
+                    {filteredArtifacts[safeActive].summary}
                   </p>
+
+                  <div className="mt-5 pt-4 border-t border-graphene flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigate("/showcase", {
+                          state: { memberId: member.id, artifactIndex: safeActive }
+                        })
+                      }
+                      className="inline-flex items-center gap-1.5 font-mono-label text-[10px] uppercase tracking-widest text-[#a8b238] transition hover:text-[#c4d03f]"
+                    >
+                      <span>Click here to view more details</span>
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </div>
               )}
             </section>
@@ -285,7 +303,6 @@ export default function MemberDossier() {
               )}
             </div>
 
-            {/* Document Tabs if member has multiple files */}
             {docs.length > 1 && (
               <div className="mt-6 overflow-x-auto">
                 <div className="flex gap-px bg-graphene">
@@ -328,7 +345,6 @@ export default function MemberDossier() {
 
             {currentDoc ? (
               linkOnly ? (
-                /* LINK ONLY (no file) → IFRAME THE LINK */
                 <div className="mt-5 overflow-hidden border border-graphene bg-obsidian">
                   <div className="flex items-center justify-between gap-3 border-b border-graphene bg-secondary/30 px-4 py-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
                     <span className="flex min-w-0 items-center gap-2">
@@ -348,7 +364,6 @@ export default function MemberDossier() {
                   </div>
                 </div>
               ) : hasLink ? (
-                /* EXTERNAL LINK REDIRECT CARD (link + file) */
                 <a
                   href={currentDoc.link}
                   target="_blank"
@@ -392,7 +407,6 @@ export default function MemberDossier() {
                   </div>
                 </a>
               ) : currentDoc.isHtml ? (
-                /* HTML VIEW (Reverted to Normal) */
                 <div className="mt-5 overflow-hidden border border-graphene bg-obsidian">
                   <div className="flex items-center justify-between border-b border-graphene bg-secondary/30 px-4 py-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
                     <span className="flex items-center gap-2">
@@ -418,7 +432,6 @@ export default function MemberDossier() {
                   </div>
                 </div>
               ) : currentDoc.isPdf ? (
-                /* PDF VIEW */
                 <div className="mt-5 overflow-hidden border border-graphene bg-obsidian">
                   <div className="flex items-center justify-between border-b border-graphene bg-secondary/30 px-4 py-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
                     <span className="flex items-center gap-2">
@@ -449,7 +462,6 @@ export default function MemberDossier() {
                   </object>
                 </div>
               ) : (
-                /* IMAGE VIEW */
                 <button
                   type="button"
                   onClick={() => setLightboxOpen(true)}
@@ -524,145 +536,6 @@ export default function MemberDossier() {
           )}
         </div>
       </div>
-
-      {/* Lightbox: images, PDF, or link-only iframe */}
-      {showLightbox && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setLightboxOpen(false)}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-foreground/85 p-4 md:p-10"
-        >
-          {linkOnly ? (
-            <>
-              <div
-                className="flex w-full max-w-5xl items-center justify-between"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <a
-                  href={currentDoc.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-citrine px-3 py-1.5 font-mono-label text-[10px] font-semibold uppercase tracking-widest text-black transition hover:bg-foreground hover:text-citrine cursor-pointer select-none"
-                >
-                  <ExternalLink className="h-3 w-3 pointer-events-none" /> Open Website
-                </a>
-                <button
-                  type="button"
-                  onClick={() => setLightboxOpen(false)}
-                  className="font-mono-label text-[11px] uppercase tracking-widest text-background transition hover:opacity-70"
-                >
-                  [ Close ]
-                </button>
-              </div>
-              <iframe
-                src={currentDoc.link}
-                title={currentDoc.title}
-                className="w-full max-w-5xl flex-1 border-0 bg-white"
-                onClick={(e) => e.stopPropagation()}
-              />
-            </>
-          ) : (
-            <>
-              <button
-                type="button"
-                onClick={() => setLightboxOpen(false)}
-                className="absolute right-5 top-5 font-mono-label text-[11px] uppercase tracking-widest text-background transition hover:opacity-70"
-              >
-                [ Close ]
-              </button>
-              {currentDoc.isPdf ? (
-                <iframe
-                  src={`${currentDoc.file}#view=FitH`}
-                  title={currentDoc.title}
-                  className="h-[85vh] w-full max-w-5xl border-0 bg-white"
-                  onClick={(e) => e.stopPropagation()}
-                />
-              ) : (
-                <img
-                  src={currentDoc.file || member.portfolioImage}
-                  alt={currentDoc.title || `${member.name} — portfolio & CV`}
-                  className="max-h-full max-w-full object-contain"
-                  onClick={(e) => e.stopPropagation()}
-                />
-              )}
-            </>
-          )}
-        </div>
-      )}
-
-      {/* HTML Fullscreen Popup Modal with Expanded Width */}
-      {htmlPopupOpen && currentDoc && currentDoc.isHtml && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setHtmlPopupOpen(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-3 md:p-6"
-        >
-          <div
-            className="relative w-full max-w-7xl h-[92vh] bg-obsidian border border-graphene flex flex-col overflow-hidden rounded-lg shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Header Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-graphene bg-secondary/40 px-6 py-3 shrink-0">
-              <div className="font-mono-label text-xs uppercase tracking-widest text-citrine">
-                {currentDoc.title} // Interactive View [{Math.round(popupZoom * 100)}%]
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setPopupZoom((prev) => Math.max(0.3, prev - 0.15))}
-                  className="inline-flex items-center gap-1 border border-graphene px-2.5 py-1 font-mono-label text-[10px] uppercase tracking-wider text-foreground hover:bg-secondary transition"
-                  title="Zoom Out"
-                >
-                  <ZoomOut className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPopupZoom(1)}
-                  className="inline-flex items-center gap-1 border border-graphene px-2.5 py-1 font-mono-label text-[10px] uppercase tracking-wider text-foreground hover:bg-secondary transition"
-                  title="Reset Zoom"
-                >
-                  <RotateCcw className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPopupZoom((prev) => Math.min(1.5, prev + 0.15))}
-                  className="inline-flex items-center gap-1 border border-graphene px-2.5 py-1 font-mono-label text-[10px] uppercase tracking-wider text-foreground hover:bg-secondary transition"
-                  title="Zoom In"
-                >
-                  <ZoomIn className="h-3.5 w-3.5" />
-                </button>
-                <div className="h-4 w-px bg-graphene mx-1" />
-                <button
-                  type="button"
-                  onClick={() => setHtmlPopupOpen(false)}
-                  className="flex items-center gap-1.5 font-mono-label text-xs uppercase tracking-widest text-foreground hover:text-citrine transition"
-                >
-                  <X className="h-4 w-4" /> [ Close ]
-                </button>
-              </div>
-            </div>
-
-            {/* Viewport Frame */}
-            <div className="flex-1 w-full bg-obsidian relative overflow-hidden">
-              <iframe
-                src={currentDoc.file}
-                title={currentDoc.title}
-                className="w-full h-full border-0 bg-obsidian absolute top-0 left-0"
-                style={{
-                  transform: `scale(${popupZoom})`,
-                  transformOrigin: "0 0",
-                  width: `${100 / popupZoom}%`,
-                  height: `${100 / popupZoom}%`,
-                }}
-                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-modals"
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

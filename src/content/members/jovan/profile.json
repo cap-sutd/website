@@ -5,7 +5,19 @@
   "pillar": "Supply Chain // Financial Services",
   "pitchReady": true,
   "portrait": "portrait.jpg",
-  "portfolio": "portfolio.pdf",
+  "portfolio": [
+     {
+      "title": "Curriculum Vitae",
+      "file": "resume.pdf",
+      "category": "Curriculum Vitae"
+    },
+    {
+      "title": "Radiant Digital SG",
+      "file": "radiant.png",
+      "link": "https://www.radiantdigitalsg.com/",
+      "category": "Personal Startup"
+    }
+  ],
   "stack": [
     "Next.js",
     "Supabase",
@@ -19,19 +31,19 @@
       "title": "RAILWATCH — Rail Wear Forecasting",
       "year": "2026",
       "category": "Supply Chain / Operations",
-      "description": "Forecasting system for SBS Transit that predicts rail wear with weighted regression, built on FastAPI and SQLite to support maintenance planning."
+      "summary": "Forecasting system for SBS Transit that predicts rail wear with weighted regression, built on FastAPI and SQLite to support maintenance planning."
     },
     {
       "title": "LUMU — Wellness Companion App",
       "year": "2026",
       "category": "Client Product",
-      "description": "Client-funded mental wellness app with an AI companion backed by a RAG psychoeducation library; scoped, contracted and built end to end for a public launch on both app stores."
+      "summary": "Client-funded mental wellness app with an AI companion backed by a RAG psychoeducation library; scoped, contracted and built end to end for a public launch on both app stores."
     },
     {
       "title": "CADENCE — Client Acquisition System",
       "year": "2026",
       "category": "Venture",
-      "description": "Funnel system for service businesses covering landing pages, payments and AI follow-up, built on Next.js, Supabase and Stripe; first paying client signed."
+      "summary": "Funnel system for service businesses covering landing pages, payments and AI follow-up, built on Next.js, Supabase and Stripe; first paying client signed."
     }
   ],
   "whyMe": "A capstone stalls when the analysis never leaves the spreadsheet. I close that gap: I can frame the problem as an operations or finance question, model it, and then build the working tool a partner can put in front of their team. I have scoped and delivered for paying clients, so I know how to keep a brief honest, a timeline real, and a stakeholder in the loop.",

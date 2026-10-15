@@ -21,19 +21,19 @@
       "title": "ROUTING — Recycling Collection Problem",
       "year": "2026",
       "category": "Optimisation",
-      "description": "Modelled 574 real HDB recycling bins as a multi-depot VRP; Simulated Annealing beat Gurobi's exact solution by 2.3x in 14.7s vs 6 hrs."
+      "summary": "Modelled 574 real HDB recycling bins as a multi-depot VRP; Simulated Annealing beat Gurobi's exact solution by 2.3x in 14.7s vs 6 hrs."
     },
     {
       "title": "DISPATCH — Carbon-Constrained Power Model",
       "year": "2026",
       "category": "Energy Systems",
-      "description": "LP across 17,520 half-hourly periods with a custom online gradient descent carbon penalty; emissions landed 0.03% under budget."
+      "summary": "LP across 17,520 half-hourly periods with a custom online gradient descent carbon penalty; emissions landed 0.03% under budget."
     },
     {
       "title": "ECOPLUS — Web App & Power BI Dashboard",
       "year": "2026",
       "category": "Data & Analytics",
-      "description": "Real-time order-entry forms and a colour-coded job tracker replaced scattered manual records for a piping/engineering firm."
+      "summary": "Real-time order-entry forms and a colour-coded job tracker replaced scattered manual records for a piping/engineering firm."
     }
   ],
   "whyMe": "A capstone succeeds when the problem is framed correctly and the solution holds up on real data. I bring the optimisation and analytics skills to model complex systems, the dashboard and UX sense to make results usable, and the discipline to get the details right.",

@@ -54,6 +54,12 @@ export default function Home() {
               Meet the Collective
               <span className="transition group-hover:translate-x-1">→</span>
             </Link>
+            <Link
+              to="/showcase"
+              className="group inline-flex items-center gap-3 border border-graphene px-7 py-4 font-mono-label text-[12px] font-semibold uppercase tracking-widest text-foreground transition hover:border-foreground hover:text-foreground"
+            >
+              View Showcase
+            </Link>
           </div>
         </div>
       </section>
@@ -113,11 +119,11 @@ export default function Home() {
       {/* Full-bleed footer CTA */}
       <footer className="border-t border-graphene">
         <a
-          href={`mailto:${collective.email}`}
+          href={`mailto:${collective.email}?cc=joash_lim@mymail.sutd.edu.sg, jovan_tan@mymail.sutd.edu.sg, xinjie_fung@mymail.sutd.edu.sg, yiqi_tan@mymail.sutd.edu.sg`}
           className="group block bg-obsidian px-6 py-16 text-center transition hover:bg-citrine md:px-10 md:py-24"
         >
           <div className="font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground group-hover:text-foreground/70">
-            INITIATE CONTACT
+            WE would love to hear from you — click on the email below to reach out to us at:
           </div>
           <div className="mt-4 break-all font-heading text-4xl font-extrabold tracking-tight text-foreground transition group-hover:text-foreground md:text-7xl">
             {collective.email}
