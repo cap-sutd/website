@@ -395,7 +395,7 @@ export default function Showcase() {
                           to={`/team/${activeProject.memberId}`}
                           className="flex items-center justify-center gap-2 border border-graphene px-4 py-2.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40 w-full"
                         >
-                          Open full dossier →
+                          Open owner's profile →
                         </Link>
                       </div>
                     </div>
