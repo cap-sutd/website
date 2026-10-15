@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { teamMembers, collective } from "@/data/team";
 import { Users, FolderGit2, PanelLeftClose, PanelLeftOpen, Menu, X } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 
 export default function TeamSidebar({ expanded, setExpanded }) {
   const location = useLocation();
@@ -120,6 +121,17 @@ export default function TeamSidebar({ expanded, setExpanded }) {
           >
             <FolderGit2 className="h-5 w-5 shrink-0 text-citrine" />
             {expanded && <span>Showcase</span>}
+          </Link>
+
+          <Link
+            to="/faq"
+            className={`flex items-center rounded-md font-mono-label text-sm uppercase transition ${
+              expanded ? "gap-4 px-3 py-3 tracking-wider" : "justify-center p-3 w-10 h-10 mx-auto"
+            } ${location.pathname === "/faq" ? "bg-secondary text-foreground" : "text-foreground hover:bg-secondary/50"}`}
+            title="FAQ"
+          >
+            <HelpCircle className="h-5 w-5 shrink-0 text-citrine" />
+            {expanded && <span>FAQ</span>}
           </Link>
         </nav>
 

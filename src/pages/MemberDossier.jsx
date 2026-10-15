@@ -3,7 +3,37 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getMember, teamMembers, collective } from "@/data/team";
 import { Image } from "@/components/ui/image";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { ArrowLeft, ArrowRight, Mail, FileText, ExternalLink, Download, Code, Maximize2, X, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Mail, FileText, ExternalLink, Download, Code, Maximize2, X, ZoomIn, ZoomOut, RotateCcw, ArrowUpRight } from "lucide-react";
+
+function PreviewHeader({ title, zoom, setZoom, onClose }) {
+  return (
+    <div className="flex items-center justify-between border-b border-graphene bg-obsidian px-6 py-4">
+      <div className="font-mono-label text-[10px] uppercase tracking-widest text-foreground flex items-center gap-2">
+        <Code className="h-4 w-4 text-citrine" />
+        {title} // FULL SCREEN PREVIEW
+      </div>
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 border border-graphene bg-secondary/30 px-2 py-1 text-foreground">
+          <button onClick={() => setZoom((z) => Math.max(0.2, z - 0.1))} className="p-1 hover:text-citrine transition cursor-pointer" title="Zoom Out">
+            <ZoomOut className="h-4 w-4" />
+          </button>
+          <span className="w-12 text-center font-mono-label text-[10px]">
+            {(zoom * 100).toFixed(0)}%
+          </span>
+          <button onClick={() => setZoom((z) => Math.min(3, z + 0.1))} className="p-1 hover:text-citrine transition cursor-pointer" title="Zoom In">
+            <ZoomIn className="h-4 w-4" />
+          </button>
+          <button onClick={() => setZoom(1)} className="p-1 hover:text-citrine ml-1 border-l border-graphene pl-3 transition cursor-pointer" title="Reset Zoom">
+            <RotateCcw className="h-3 w-3" />
+          </button>
+        </div>
+        <button onClick={onClose} className="text-muted-foreground hover:text-rose-500 transition-colors cursor-pointer" title="Close">
+          <X className="h-8 w-8" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function MemberDossier() {
   const { memberId } = useParams();
@@ -12,6 +42,8 @@ export default function MemberDossier() {
   const [activeArtifact, setActiveArtifact] = useState(0);
   const [activeDocIndex, setActiveDocIndex] = useState(0);
   const [category, setCategory] = useState("all");
+  
+  // Modal States
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [htmlPopupOpen, setHtmlPopupOpen] = useState(false);
   const [popupZoom, setPopupZoom] = useState(1);
@@ -21,11 +53,17 @@ export default function MemberDossier() {
     setActiveArtifact(0);
     setActiveDocIndex(0);
     setCategory("all");
+    setLightboxOpen(false);
+    setHtmlPopupOpen(false);
   }, [memberId]);
+
+  useEffect(() => {
+    if (lightboxOpen) setPopupZoom(1);
+  }, [lightboxOpen]);
 
   if (!member) {
     return (
-      <div className="flex flex-col min-h-screen w-full items-center justify-center gap-4 bg-obsidian px-6 text-center">
+      <div className="flex flex-col h-screen w-full items-center justify-center gap-4 bg-obsidian px-6 text-center">
         <div className="font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
           ERROR // FILE NOT FOUND
         </div>
@@ -55,9 +93,9 @@ export default function MemberDossier() {
   const linkOnly = hasLink && !currentDoc?.file;
 
   return (
-    <div className="flex flex-col w-full bg-obsidian text-foreground">
+    <div className="flex flex-col w-full bg-obsidian text-foreground min-h-screen relative">
       {/* Top bar */}
-      <div className="flex items-center justify-between border-b border-graphene px-6 py-3 font-mono-label text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:px-12">
+      <div className="flex items-center justify-between border-b border-graphene px-6 py-3 font-mono-label text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:px-12 bg-obsidian z-10 relative">
         <Link to="/team" className="flex items-center gap-2 transition hover:text-foreground">
           <ArrowLeft className="h-3 w-3" /> Collective
         </Link>
@@ -65,44 +103,45 @@ export default function MemberDossier() {
         <span className="hidden md:inline">{collective.cohort}</span>
       </div>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 relative">
+      <div className="flex flex-col lg:flex-row w-full items-start relative">
         
-        {/* LEFT COLUMN — The "Track" (naturally stretches to the height of the right column) */}
-        <div className="hidden lg:block border-r border-graphene relative">
-          
-          {/* STICKY ELEMENT — Slides down the track as you scroll */}
-          <div className="sticky top-0 h-screen w-full overflow-hidden">
-            <Image
-              src={member.image}
-              alt={member.name}
-              className="h-full w-full object-cover"
-              fittingType="fill"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
-              <div className="mt-2 font-heading text-5xl font-extrabold tracking-tighter">{member.name}</div>
-              <div className="mt-1 font-mono-label text-[11px] uppercase tracking-widest text-muted-foreground">
-                {member.pillar}
-              </div>
-              <div className="mt-4 flex items-center gap-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
-                <span
-                  className={`inline-block h-1.5 w-1.5 rounded-full ${
-                    member.pitchReady ? "bg-citrine animate-pulse-dot" : "bg-foreground/30"
-                  }`}
-                />
-                {member.pitchReady ? "Pitch Ready" : "Standby"}
-              </div>
+        {/* LEFT COLUMN */}
+        <div className="hidden lg:block sticky top-0 w-1/2 h-screen border-r border-graphene shrink-0 overflow-hidden">
+          <Image
+            src={member.image}
+            alt={member.name}
+            className="h-full w-full object-cover"
+            fittingType="fill"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-8">
+            <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
+            <div className="mt-2 font-heading text-5xl font-extrabold tracking-tighter">{member.name}</div>
+            <div className="mt-1 font-mono-label text-[11px] uppercase tracking-widest text-muted-foreground">
+              {member.pillar}
+            </div>
+            <div className="mt-4 flex items-center gap-2 font-mono-label text-[10px] uppercase tracking-widest text-muted-foreground">
+              <span
+                className={`inline-block h-1.5 w-1.5 rounded-full ${
+                  member.pitchReady ? "bg-citrine animate-pulse-dot" : "bg-foreground/30"
+                }`}
+              />
+              {member.pitchReady ? "Pitch Ready" : "Standby"}
             </div>
           </div>
         </div>
 
-        {/* RIGHT COLUMN — Scrollable Intel Feed */}
-        <div className="px-6 py-10 md:px-12 md:py-16">
+        {/* RIGHT COLUMN */}
+        <div className="w-full lg:w-1/2 px-6 py-10 md:px-12 md:py-16 shrink-0">
+          
           {/* mobile portrait */}
           <div className="relative mb-8 aspect-[4/5] overflow-hidden lg:hidden">
-            <Image src={member.image} alt={member.name} className="h-full w-full object-cover" fittingType="fill" />
+            <Image 
+              src={member.image} 
+              alt={member.name} 
+              className="h-full w-full object-cover" 
+              fittingType="fill"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="font-mono-label text-[11px] text-foreground">FILE {member.index}</div>
@@ -243,7 +282,7 @@ export default function MemberDossier() {
                       <button
                         type="button"
                         onClick={() => setLightboxOpen(true)}
-                        className="inline-flex items-center gap-1.5 border border-graphene px-3 py-1.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40"
+                        className="inline-flex items-center gap-1.5 border border-graphene px-3 py-1.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40 cursor-pointer"
                       >
                         <Maximize2 className="h-3 w-3" /> Expand
                       </button>
@@ -274,7 +313,7 @@ export default function MemberDossier() {
                             setPopupZoom(1);
                             setHtmlPopupOpen(true);
                           }}
-                          className="inline-flex items-center gap-1.5 border border-graphene px-3 py-1.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40"
+                          className="inline-flex items-center gap-1.5 border border-graphene px-3 py-1.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40 cursor-pointer"
                         >
                           <Maximize2 className="h-3 w-3" /> Expand
                         </button>
@@ -282,7 +321,7 @@ export default function MemberDossier() {
                         <button
                           type="button"
                           onClick={() => setLightboxOpen(true)}
-                          className="inline-flex items-center gap-1.5 border border-graphene px-3 py-1.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40"
+                          className="inline-flex items-center gap-1.5 border border-graphene px-3 py-1.5 font-mono-label text-[10px] uppercase tracking-widest text-foreground transition hover:border-foreground hover:bg-secondary/40 cursor-pointer"
                         >
                           <Maximize2 className="h-3 w-3" /> Expand
                         </button>
@@ -311,7 +350,7 @@ export default function MemberDossier() {
                       key={doc.id || idx}
                       type="button"
                       onClick={() => setActiveDocIndex(idx)}
-                      className={`min-w-[190px] flex-1 border-0 p-4 text-left transition ${
+                      className={`min-w-[190px] flex-1 border-0 p-4 text-left transition cursor-pointer ${
                         safeDocIndex === idx
                           ? "bg-citrine text-foreground"
                           : "bg-obsidian text-foreground hover:bg-secondary"
@@ -465,7 +504,7 @@ export default function MemberDossier() {
                 <button
                   type="button"
                   onClick={() => setLightboxOpen(true)}
-                  className="group mt-5 block w-full text-left"
+                  className="group mt-5 block w-full text-left cursor-pointer"
                 >
                   <div className="relative aspect-[4/5] w-full overflow-hidden border border-graphene bg-obsidian sm:aspect-[4/3]">
                     <Image
@@ -536,6 +575,93 @@ export default function MemberDossier() {
           )}
         </div>
       </div>
+
+      {/* ============================================================== */}
+      {/* MODALS */}
+      {/* ============================================================== */}
+
+      {/* 1. Lightbox Popup with safe type rendering */}
+      {lightboxOpen && currentDoc && (
+        <div className="fixed inset-0 z-[9999] flex flex-col bg-obsidian/95 backdrop-blur-sm animate-fade-in">
+          <PreviewHeader
+            title={currentDoc.title}
+            zoom={popupZoom}
+            setZoom={setPopupZoom}
+            onClose={() => setLightboxOpen(false)}
+          />
+          <div className="flex-1 overflow-hidden p-4 md:p-8 bg-secondary/10">
+            {linkOnly ? (
+              /* Website: reflow like the HTML preview so zooming out shows more of the page */
+              <div className="relative h-full w-full overflow-auto border border-graphene shadow-2xl bg-white">
+                <iframe
+                  src={currentDoc.link}
+                  title={currentDoc.title}
+                  className="border-0 bg-white"
+                  style={{
+                    width: `${100 / popupZoom}%`,
+                    height: `${100 / popupZoom}%`,
+                    transform: `scale(${popupZoom})`,
+                    transformOrigin: "0 0",
+                  }}
+                />
+              </div>
+            ) : (
+              /* PDF / image: frame stays fixed, only the media inside zooms */
+              <div className="relative flex h-full w-full overflow-auto border border-graphene shadow-2xl bg-obsidian">
+                {currentDoc.isPdf ? (
+                  <object
+                    key={popupZoom}
+                    data={`${currentDoc.file}#${popupZoom === 1 ? "view=FitH" : `zoom=${Math.round(popupZoom * 100)}`}`}
+                    type="application/pdf"
+                    className="h-full w-full shrink-0 bg-obsidian"
+                  />
+                ) : (
+                  <div
+                    className="m-auto shrink-0 transition-[width,height] duration-200"
+                    style={{ width: `${popupZoom * 100}%`, height: `${popupZoom * 100}%` }}
+                  >
+                    <Image
+                      src={currentDoc.file}
+                      alt={currentDoc.title}
+                      className="h-full w-full object-contain"
+                      fittingType="fit"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 2. HTML Interactive Zoom Popup */}
+      {htmlPopupOpen && currentDoc && currentDoc.isHtml && (
+        <div className="fixed inset-0 z-[9999] flex flex-col bg-obsidian/95 backdrop-blur-sm animate-fade-in">
+          <PreviewHeader
+            title={currentDoc.title}
+            zoom={popupZoom}
+            setZoom={setPopupZoom}
+            onClose={() => setHtmlPopupOpen(false)}
+          />
+          <div className="flex-1 overflow-hidden p-4 md:p-8 bg-secondary/10">
+            <div className="relative h-full w-full overflow-auto bg-white shadow-2xl border border-graphene">
+              <iframe
+                src={currentDoc.file}
+                title={currentDoc.title}
+                className="border-0 bg-white"
+                style={{
+                  width: `${100 / popupZoom}%`,
+                  height: `${100 / popupZoom}%`,
+                  transform: `scale(${popupZoom})`,
+                  transformOrigin: "0 0",
+                }}
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-modals"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

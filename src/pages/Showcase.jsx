@@ -417,10 +417,14 @@ export default function Showcase() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-graphene px-6 py-10 md:px-12 mt-auto">
+      <footer className="border-t border-graphene px-6 py-10 md:px-12 mt-auto hover:bg-citrine">
+        <div className="font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground group-hover:text-foreground/70">
+            Feel free to reach out to us at the email below for any inquiries or collaborations!
+          </div>
+
         <a
           href={`mailto:${collective.email}?cc=joash_lim@mymail.sutd.edu.sg, jovan_tan@mymail.sutd.edu.sg, xinjie_fung@mymail.sutd.edu.sg, yiqi_tan@mymail.sutd.edu.sg`}
-          className="group block font-heading text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight text-foreground transition hover:opacity-70"
+          className="group block font-heading text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight text-foreground transition hover:text-foreground"
         >
           {collective.email}
         </a>

@@ -41,12 +41,12 @@ export default function Team() {
         ))}
       </div>
 
-      <footer className="border-t border-graphene px-6 py-10 md:px-12">
-        <div className="font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground group-hover:text-foreground/70">
+      <footer className="border-t border-graphene px-6 py-10 md:px-12 hover:bg-citrine">
+        <div className="font-mono-label text-[11px] uppercase tracking-[0.25em] text-muted-foreground group-hover:text-foreground/70 ">
             click on the email below to reach out to us!
           </div>
         <a href={`mailto:${collective.email}?cc=joash_lim@mymail.sutd.edu.sg, jovan_tan@mymail.sutd.edu.sg, xinjie_fung@mymail.sutd.edu.sg, yiqi_tan@mymail.sutd.edu.sg`}              
-          className="group block font-heading text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight text-foreground transition hover:text-foreground">
+          className="group block font-heading text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight text-foreground transition hover:text-forgrouned">
           {collective.email}
         </a>
       </footer>
